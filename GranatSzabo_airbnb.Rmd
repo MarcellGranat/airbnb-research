@@ -1,0 +1,152 @@
+---
+title: "Airbnb"
+author: "Marcell P. Granát & Zója M. Szabó"
+date: \today
+output: 
+  pdf_document: 
+    fig_caption: yes
+    toc: yes
+    toc_depth: 4
+header-includes:
+- \usepackage{fancyhdr}
+- \usepackage{natbib}
+- \pagestyle{fancy}
+- \fancyhf{}
+- \fancyhead[RE,LO]{\leftmark}
+- \fancyfoot[C]{\thepage}
+- \usepackage{lscape}
+- \usepackage{pdfpages}
+- \usepackage{titling}
+- \pretitle{\begin{center}\LARGE\includegraphics[width=5cm]{logo.png}\\[\bigskipamount]}
+- \posttitle{\end{center}}
+editor_options: 
+  chunk_output_type: console
+---
+
+\pagebreak
+
+\begin{abstract}
+Here is the abstract.
+\end{abstract}
+
+\pagebreak
+
+# Introduction
+
+```{r setup, include=FALSE, warning=F}
+knitr::opts_chunk$set(echo = F, comment = "", warning = F, message = F, cache = T, dev = "cairo_pdf", error = T)
+```
+
+```{r packages}
+# Set up --------------------------------------------------------------------------------
+
+load('dat.RData')
+
+## Packages ============================================================================= 
+
+library(tidyverse)
+library(patchwork)
+library(knitr)
+library(broom)
+
+library(geofacet)
+library(tidytext)
+
+## Gg theme =============================================================================
+
+update_geom_defaults("point", list(fill = "#B1339E", 
+                                   shape = 21, 
+                                   color = "black", 
+                                   size = 1.4))
+update_geom_defaults("line", 
+                     list(color = "midnightblue", size = 1.4))
+
+update_geom_defaults("smooth", list(color = "red4", size = 1.4))
+
+update_geom_defaults("density", 
+                     list(color = "midnightblue", fill =  "midnightblue",
+                          alpha = .3, size = 1.4))
+
+extrafont::loadfonts(device="win")
+
+theme_set(theme_minimal() + theme(
+  legend.direction = "vertical",
+  # text = element_text(family = "Impact"),
+  plot.caption = element_text(family = "serif")
+))
+
+```
+
+
+[leíró statok: eu bizottság felhívása]
+
+```{r fig.cap="Most common languages found in the comments by counties"}
+lapply(dat, function(x) {
+  tibble(city = x[["source"]][["city"]], comments = x$comments) %>% 
+    mutate(language = textcat::textcat(comments))
+}
+) %>% reduce(rbind) %>% 
+  mutate(
+    language = fct_lump(language, n = 10) %>% 
+      fct_infreq()
+  ) %>% 
+  ggplot() +
+  aes(y = city, fill = language) +
+  scale_x_continuous(labels = scales::percent, limits = c(0,1), expand = c(0,0)) +
+  geom_bar(color = "black", position = position_fill()) +
+  scale_fill_viridis_d() +
+  labs(x = 'Proportion of comments', y = NULL, fill = "Language")
+```
+
+\pagebreak
+
+```{r fig.cap="Words which correspond to high or low rating"}
+lapply(dat, function(x) { 
+  tryCatch({
+  tibble(city = x$assesment, comments = x$comments) %>% 
+    mutate(language = textcat::textcat(comments))
+  }, error = function(e) NULL)
+}
+) %>% 
+  {reduce(Filter(f = Negate(is.null), .), rbind)} %>% 
+  filter(language == "english") %>% 
+  apply(1, function(x) {
+    tidytext::unnest_tokens(data.frame(comments = x[2]), words, comments, to_lower = T) %>% 
+      mutate(value = as.numeric(str_replace_all(x[1], ',', '.')))
+  }) %>% reduce(rbind) %>% 
+  group_by(words) %>% 
+  summarise(value = mean(value, na.rm = T), n = n()) %>% 
+  ungroup() %>% 
+  anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
+  {rbind(mutate(tail(arrange(., value, n), 50), type = "High"), 
+         mutate(tail(arrange(., desc(value), n), 50), type = "Low"))} %>% 
+  reshape2::acast(words ~ type, value.var = "n", fill = 0) %>%
+  wordcloud::comparison.cloud(colors = viridis::viridis(2, direction = -1 , end = .7),
+                              max.words = 100)
+```
+
+
+# Theoretical consideration
+
+# Data
+
+# Explore data
+
+# Model building
+
+# Consequences
+
+# Summary
+
+\pagebreak
+
+\nocite{*}
+\bibliography{airbnb-research}
+\bibliographystyle{agsm}
+
+\pagebreak
+
+# Appendix: R codes
+
+```{r ref.label=setdiff(knitr::all_labels(), c("setup")), eval=FALSE, echo=T, attr.source='.numberLines'}
+```

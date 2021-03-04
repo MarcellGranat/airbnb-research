@@ -7,6 +7,8 @@ cities <- readxl::read_excel("cities.xlsx") %>%
     URL = str_replace_all(URL, 'airbnb.hu', 'airbnb.com')
   )
 
+# TODO dates
+
 cities <- cities %>%
   apply(1, function(x) {
     n_rooms <- read_html(x[2]) %>%
@@ -21,7 +23,7 @@ cities <- cities %>%
 RecPri_df <- cities %>%
   filter(n_rooms == 'Több' | n_rooms == '300+' | n_rooms == '300' )
 
-for (i in 1:nrow(RecPri_df)) {
+for (i in 1:nrow(RecPri_df)) { # TODO parallel
   run <-  T
   df <- seq(from = 10, to = 1500, length.out = 5) %>%
     floor() %>%
@@ -119,26 +121,26 @@ all_source <- reduce(all_source, rbind)
 
 room_list <- parApply(cl = cl, all_source, 1, function(x) {
   tryCatch({
-  page <- read_html(x[2]) 
-  URL = page %>%
-    html_nodes('._gjfol0') %>%
-    html_attr('href') %>% 
-    {paste0('https://www.airbnb.com', .)}
-  price = page %>%
-    html_nodes('span._olc9rf0') %>%
-    html_text() %>% 
-    .[1:length(URL)]
-  place = page %>%
-    html_nodes('._b14dlit') %>%
-    html_text() %>% 
-  .[1:length(URL)]
-  data.frame(
-  city = x[1],
-  title = page %>%
-    html_nodes('._gjfol0') %>%
-    html_attr('aria-label'),
-  URL, price, place
-)
+    page <- read_html(x[2]) 
+    URL = page %>%
+      html_nodes('._gjfol0') %>%
+      html_attr('href') %>% 
+      {paste0('https://www.airbnb.com', .)}
+    price = page %>%
+      html_nodes('span._olc9rf0') %>%
+      html_text() %>% 
+      .[1:length(URL)]
+    place = page %>%
+      html_nodes('._b14dlit') %>%
+      html_text() %>% 
+      .[1:length(URL)]
+    data.frame(
+      city = x[1],
+      title = page %>%
+        html_nodes('._gjfol0') %>%
+        html_attr('aria-label'),
+      URL, price, place
+    )
   }, error = function(e) NULL)
 })
 
