@@ -2,24 +2,19 @@ library(rvest)
 library(tidyverse)
 library(RSelenium)
 
-load("C:/school/szem_8/TDK-kincs/airbnb-research/room_list2.RData")
+load("C:/school/szem_8/TDK-airbnb/airbnb-research/room_list2.RData")
 
-room_interval <- 2501:10000
-
-URL <- room_list$URL
-
+room_interval <- 3001:3003
 raw_dat <- list()
-sleep_time <- 1
 
 rD <- rsDriver(verbose = TRUE, 
-               port=48304L, 
+               port=48305L, 
                chromever = '88.0.4324.27',
                check = TRUE)
 
 remDr <- rD$client
 
 for (i in room_interval) {
-  
   remDr$navigate(pull(room_list[i, ], URL))
   run <- T
   j = 1
@@ -36,7 +31,7 @@ for (i in room_interval) {
   stars <- character()
   
   while (run) {
-    Sys.sleep(sleep_time)
+    Sys.sleep(1)
     page_room <- remDr$getPageSource()[[1]]
     page_room <- read_html(page_room) 
     page_room %>% 
@@ -104,66 +99,63 @@ for (i in room_interval) {
       html_text()
     
     if ((length(url_reviews) != 0 & 
-         length(url_amenities) != 0 &
-         length(url_descript) != 0 &
-         length(title) != 0 &
-         length(host) != 0 &
-         length(rules) != 0 &
          length(assesment) != 0 &
-         length(n_reviews) != 0 &
-         length(bed) != 0 &
-         length(price) != 0 &
-         length(stars) != 0
+         length(base_descript) != 0
     ) | j == 7) run <- F
     j <- j + 1
   }
   
   # reviews ---------------------------------------------------------------------------
-  
-  remDr$navigate(url_reviews)
-  run <- T
-  j <- 1
-  comments <- character()
-  while(run) {
-    Sys.sleep(sleep_time)
-    comments <- remDr$getPageSource()[[1]] %>% 
-      read_html() %>% 
-      html_nodes('._1xib9m0') %>% 
-      html_text()
-    if (length(comments) != 0 | j == 7) run <- F
-    j <- j + 1
+  if (url_reviews != 'https://www.airbnb.com') {
+    remDr$navigate(url_reviews)
+    run <- T
+    j <- 1
+    comments <- character()
+    while(run) {
+      if (j == 1) Sys.sleep(1)
+      Sys.sleep(1)
+      print(j)
+      comments <- remDr$getPageSource()[[1]] %>% 
+        read_html() %>% 
+        html_nodes('._1xib9m0') %>% 
+        html_text()
+      if (length(comments) != 0 | j == 7) run <- F
+      j <- j + 1
+    }
   }
   
-  
-  
-  remDr$navigate(url_descript)
-  run <- T
-  j <- 1
-  description <- character()
-  while(run) {
-    Sys.sleep(sleep_time)
-    if (i == 1) Sys.sleep(3)
-    description <- remDr$getPageSource()[[1]] %>% 
-      read_html() %>% 
-      html_nodes("._1xib9m0") %>% 
-      html_text()
-    if (length(description) != 0 | j == 7) run <- F
-    j <- j + 1
+  if (url_descript != 'https://www.airbnb.com') {
+    remDr$navigate(url_descript)
+    run <- T
+    j <- 1
+    description <- character()
+    while(run) {
+      Sys.sleep(1)
+      if (j == 1) Sys.sleep(3)
+      description <- remDr$getPageSource()[[1]] %>% 
+        read_html() %>% 
+        html_nodes("._1xib9m0") %>% 
+        html_text()
+      if (length(description) != 0 | j == 7) run <- F
+      j <- j + 1
+    }
   }
-  
-  remDr$navigate(url_amenities)
-  run <- T
-  j <- 1
-  amenities <- character()
-  while(run) {
-    Sys.sleep(sleep_time)
-    amenities <- remDr$getPageSource()[[1]] %>% 
-      read_html() %>% 
-      html_nodes("._vzrbjl") %>% 
-      html_text()
-    if (length(amenities) != 0 | j == 7) run <- F
-    j <- j + 1
-  }
+    
+    if (url_amenities != 'https://www.airbnb.com') {
+      remDr$navigate(url_amenities)
+      run <- T
+      j <- 1
+      amenities <- character()
+      while(run) {
+        Sys.sleep(1)
+        amenities <- remDr$getPageSource()[[1]] %>% 
+          read_html() %>% 
+          html_nodes("._vzrbjl") %>% 
+          html_text()
+        if (length(amenities) != 0 | j == 7) run <- F
+        j <- j + 1
+      }
+    }
   
   l <- list(
     source = room_list[i, ],
@@ -186,7 +178,7 @@ for (i in room_interval) {
   
   raw_dat[[length(raw_dat) + 1]] <- l
   if (i %% 50 == 0) {
-    save(list = c("raw_dat"), file = paste0("C:/school/szem_8/TDK-kincs/airbnb-research/room_rawdata/raw_dat", i ,".RData"))
+    save(list = c("raw_dat"), file = paste0("C:/school/szem_8/TDK-airbnb/airbnb-research/room_rawdata/raw_dat", i ,".RData"))
     raw_dat <- list()
   }
 }
