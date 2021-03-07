@@ -1,5 +1,5 @@
 ---
-title: "Airbnb"
+title: "An Analysis of Customer Reviews on Airbnb"
 author: "Marcell P. Granát & Zója M. Szabó"
 date: \today
 output: 
@@ -25,11 +25,15 @@ editor_options:
 
 \pagebreak
 
+```{=tex}
 \begin{abstract}
-Here is the abstract.
+Public perception of shared goods and/or services has changed significantly in the last few years. Shared accommodations have gained so great popularity, that house and flat sharing platforms like Airbnb now rival some of the world’s largest businesses in hospitality. Sharing of personal properties provides an opportunity for owners to lower the transaction costs of operating short-term rentals and online rental marketplaces connect people who want to rent out their dwellings with the ones who are looking for accommodations. This study is aimed at determining the perceived behavior of individuals choosing Airbnb and introducing what factors influence user ratings and consumer adoption of Airbnb while assuming that customer feedbacks significantly influence consumer choice. We also analyze the market trends of the Hungarian Airbnb accommodations as primary examples of sharing or collaborative economy. Weekly data was collected for the Hungarian accommodation establishments all over the country. We aimed to build a complete dataset of the active suppliers by using automated “web scraping” techniques during a certain window of time. Our database contained customer ratings, reviews and pieces of public information concerning the rooms. We performed an advanced text analysis of the variables mentioned previously. 
 \end{abstract}
-
+```
 \pagebreak
+
+\listoftables
+\listoffigures
 
 # Introduction
 
@@ -38,20 +42,20 @@ knitr::opts_chunk$set(echo = F, comment = "", warning = F, message = F, cache = 
 ```
 
 ```{r packages}
-# Set up --------------------------------------------------------------------------------
-
-load('dat.RData')
-
-## Packages ============================================================================= 
+# Packages ------------------------------------------------------------------------------ 
 
 library(tidyverse)
-library(patchwork)
 library(knitr)
-library(broom)
-
-library(geofacet)
 library(tidytext)
 
+```
+
+```{r data}
+load('dat.RData')
+load('room_list.RData')
+```
+
+```{r theme}
 ## Gg theme =============================================================================
 
 update_geom_defaults("point", list(fill = "#B1339E", 
@@ -71,59 +75,194 @@ extrafont::loadfonts(device="win")
 
 theme_set(theme_minimal() + theme(
   legend.direction = "vertical",
-  # text = element_text(family = "Impact"),
   plot.caption = element_text(family = "serif")
 ))
 
 ```
 
-
 [leíró statok: eu bizottság felhívása]
 
-```{r fig.cap="Most common languages found in the comments by counties"}
+```{r fig.cap='Proportion of internet bookings of the main means of accommodation by countries and the partner type'}
+f.plot_eurostat <- function(x){
+  eurostat::get_eurostat('tour_dem_ttorg', time_format = 'num') %>% 
+    filter(trip_arr %in% c('ACC_WEB', 'TOTAL') & duration == 'N1-3' & time == 2017 & purpose == 'TOTAL') %>% 
+    pivot_wider(names_from = trip_arr, values_from = values) %>% 
+    mutate(
+      value = ACC_WEB/TOTAL
+    ) %>% 
+    filter(partner == x) %>% 
+    mutate(geo = fct_reorder(geo, -value)) %>% 
+    ggplot() +
+    aes(geo, value, fill = geo == 'HU') +
+    geom_hline(yintercept = 0) +
+    geom_col(color = 'black') +
+    scale_fill_brewer(palette = 3, guide = F) +
+    scale_y_continuous(labels = scales::percent, limits = c(0, .7)) +
+    labs(
+      x = NULL, y = NULL, title = case_when(
+        x == 'DOM' ~ 'Domestic',
+        x == 'OUT' ~ 'Outbound',
+        T ~ 'Total'
+      )
+    )
+}
+
+ggpubr::ggarrange(
+  f.plot_eurostat('DOM'),
+  f.plot_eurostat('OUT'),
+  f.plot_eurostat('WORLD') +
+    labs(caption = 'Source of data: Eurostat'),
+  ncol = 1
+)
+
+```
+
+```{r fig.cap = 'Starting points to our scrapping algorithm'}
+hun_cities <- read_csv("worldcities.csv") %>% 
+  filter(country == "Hungary") %>% 
+  select(city, lat, lng, admin_name, population)
+
+cities <- readxl::read_excel("cities.xlsx")
+
+library("rnaturalearth")
+library("rnaturalearthdata")
+
+world <- ne_countries(scale = "large", returnclass = "sf")
+class(world)
+
+merge(cities, hun_cities, by = 'city') %>% 
+  tibble() %>% 
+  ggplot() +
+  geom_sf(data = world, size = 1.2, fill = 'white', color = 'black') +
+  coord_sf(xlim = c(16, 23.4), ylim = c(45.5, 48.7), expand = FALSE) +
+  geom_point(aes(x = lng, y = lat), size = 4, 
+             shape = 21, fill = viridis::viridis(1, begin = .1)) +
+  theme(
+    text = element_blank()
+  )
+
+```
+
+```{r langugae_distribution, fig.cap="Most common languages found in the comments by counties"}
 lapply(dat, function(x) {
   tibble(city = x[["source"]][["city"]], comments = x$comments) %>% 
     mutate(language = textcat::textcat(comments))
-}
-) %>% reduce(rbind) %>% 
+}) %>% 
+  reduce(rbind) %>% 
   mutate(
-    language = fct_lump(language, n = 10) %>% 
+    language = fct_lump(language, n = 6) %>% 
       fct_infreq()
   ) %>% 
+  merge(hun_cities) %>% 
+  {rbind(., mutate(., admin_name = 'Total'))} %>% 
+  mutate(admin_name = fct_reorder(admin_name, admin_name == 'Total')) %>% 
   ggplot() +
-  aes(y = city, fill = language) +
+  aes(y = admin_name, fill = language) +
   scale_x_continuous(labels = scales::percent, limits = c(0,1), expand = c(0,0)) +
   geom_bar(color = "black", position = position_fill()) +
   scale_fill_viridis_d() +
   labs(x = 'Proportion of comments', y = NULL, fill = "Language")
+
 ```
 
 \pagebreak
 
 ```{r fig.cap="Words which correspond to high or low rating"}
-lapply(dat, function(x) { 
+dat_words <- lapply(dat, function(x) { 
   tryCatch({
-  tibble(city = x$assesment, comments = x$comments) %>% 
-    mutate(language = textcat::textcat(comments))
+    tibble(comments = x$comments) %>% 
+      mutate(language = textcat::textcat(comments)) %>% 
+      filter(language == "english") %>% 
+      tail(-2) %>% 
+      tidytext::unnest_tokens(words, comments, to_lower = T) %>% 
+      mutate(assesment = x[["source"]][["assesment"]], n_reviews = x[["source"]][["n_reviews"]]) 
   }, error = function(e) NULL)
 }
 ) %>% 
-  {reduce(Filter(f = Negate(is.null), .), rbind)} %>% 
-  filter(language == "english") %>% 
-  apply(1, function(x) {
-    tidytext::unnest_tokens(data.frame(comments = x[2]), words, comments, to_lower = T) %>% 
-      mutate(value = as.numeric(str_replace_all(x[1], ',', '.')))
-  }) %>% reduce(rbind) %>% 
+  {reduce(Filter(f = Negate(is.null), .), rbind)}
+
+```
+
+```{r}
+dat_words <- dat_words %>%
+  filter(n_reviews > 10 & words != 'bővebben') %>% 
+  mutate(type = case_when(
+    assesment >= quantile(assesment, .99) ~ 'High',
+    assesment <= quantile(assesment, .01) ~ 'Low',
+    T ~ 'Middle'
+  ))
+
+dat_words_High <- dat_words %>% 
+  filter(type == 'High') %>% 
   group_by(words) %>% 
-  summarise(value = mean(value, na.rm = T), n = n()) %>% 
+  summarise(n = n()) %>% 
   ungroup() %>% 
+  merge(dat_words %>% 
+          group_by(words) %>% 
+          summarise(total = n()) %>% 
+          ungroup()) %>% 
+  filter(n >= 10) %>% 
+  mutate(
+    rtf = n/total, type = 'High'
+  ) %>% 
+  arrange(desc(rtf)) %>% 
   anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
-  {rbind(mutate(tail(arrange(., value, n), 50), type = "High"), 
-         mutate(tail(arrange(., desc(value), n), 50), type = "Low"))} %>% 
-  reshape2::acast(words ~ type, value.var = "n", fill = 0) %>%
+  head(50)
+
+dat_words_Low <- dat_words %>% 
+  filter(type == 'Low') %>% 
+  group_by(words) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  merge(dat_words %>% 
+          group_by(words) %>% 
+          summarise(total = n()) %>% 
+          ungroup()) %>% 
+  filter(n >= 10) %>% 
+  mutate(
+    rtf = n/total, type = 'Low'
+  ) %>% 
+  arrange(desc(rtf)) %>%
+  anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
+  head(50)
+```
+
+```{r fig.cap="Words which correspond to high or low rating"}
+rbind(dat_words_Low, dat_words_High) %>%  
+  reshape2::acast(words ~ type, value.var = "rtf", fill = 0) %>%
   wordcloud::comparison.cloud(colors = viridis::viridis(2, direction = -1 , end = .7),
                               max.words = 100)
+
 ```
+
+```{r}
+room_list <- room_list_total %>% 
+  filter(!duplicated(id)) %>% 
+  filter(!is.na(assesment)) %>%
+  filter(str_detect(assesment, '\\.'))
+```
+
+```{r}
+room_list %>% 
+  ggplot() +
+  aes(assesment, price) +
+  geom_point() +
+  geom_smooth()
+```
+
+```{r fig.cap='Empirical cumulative distribution functions'}
+room_list %>% 
+  ggplot() +
+  stat_ecdf(aes(x = assesment))
+  
+room_list %>% 
+  ggplot() +
+  stat_ecdf(aes(x = n_reviews)) +
+  stat_ecdf(data = filter(room_list, assesment == 5), mapping = aes(n_reviews)) +
+  scale_x_log10()
+```
+
+
 
 
 # Theoretical consideration
@@ -132,7 +271,7 @@ lapply(dat, function(x) {
 
 # Explore data
 
-# Model building
+# Modell building
 
 # Consequences
 
@@ -141,9 +280,11 @@ lapply(dat, function(x) {
 \pagebreak
 
 \nocite{*}
+
+```{=tex}
 \bibliography{airbnb-research}
 \bibliographystyle{agsm}
-
+```
 \pagebreak
 
 # Appendix: R codes
