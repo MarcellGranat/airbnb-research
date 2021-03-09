@@ -30,10 +30,10 @@ editor_options:
 Public perception of shared goods and/or services has changed significantly in the last few years. Shared accommodations have gained so great popularity, that house and flat sharing platforms like Airbnb now rival some of the world’s largest businesses in hospitality. Sharing of personal properties provides an opportunity for owners to lower the transaction costs of operating short-term rentals and online rental marketplaces connect people who want to rent out their dwellings with the ones who are looking for accommodations. This study is aimed at determining the perceived behavior of individuals choosing Airbnb and introducing what factors influence user ratings and consumer adoption of Airbnb while assuming that customer feedbacks significantly influence consumer choice. We also analyze the market trends of the Hungarian Airbnb accommodations as primary examples of sharing or collaborative economy. Weekly data was collected for the Hungarian accommodation establishments all over the country. We aimed to build a complete dataset of the active suppliers by using automated “web scraping” techniques during a certain window of time. Our database contained customer ratings, reviews and pieces of public information concerning the rooms. We performed an advanced text analysis of the variables mentioned previously. 
 \end{abstract}
 ```
-\pagebreak
 
 \listoftables
 \listoffigures
+\pagebreak
 
 # Introduction
 
@@ -47,45 +47,21 @@ knitr::opts_chunk$set(echo = F, comment = "", warning = F, message = F, cache = 
 library(tidyverse)
 library(knitr)
 library(tidytext)
+library(rvest)
+library(parallel)
+library(RSelenium)
+library(rnaturalearth)
+library(rnaturalearthdata)
 
 ```
 
-```{r data}
-load('dat.RData')
-load('room_list.RData')
-```
+```{r eurostat, fig.cap='Proportion of internet bookings of the main means of accommodation by countries and the partner type'}
+# Introduction --------------------------------------------------------------------------
 
-```{r theme}
-## Gg theme =============================================================================
-
-update_geom_defaults("point", list(fill = "#B1339E", 
-                                   shape = 21, 
-                                   color = "black", 
-                                   size = 1.4))
-update_geom_defaults("line", 
-                     list(color = "midnightblue", size = 1.4))
-
-update_geom_defaults("smooth", list(color = "red4", size = 1.4))
-
-update_geom_defaults("density", 
-                     list(color = "midnightblue", fill =  "midnightblue",
-                          alpha = .3, size = 1.4))
-
-extrafont::loadfonts(device="win")
-
-theme_set(theme_minimal() + theme(
-  legend.direction = "vertical",
-  plot.caption = element_text(family = "serif")
-))
-
-```
-
-[leíró statok: eu bizottság felhívása]
-
-```{r fig.cap='Proportion of internet bookings of the main means of accommodation by countries and the partner type'}
 f.plot_eurostat <- function(x){
   eurostat::get_eurostat('tour_dem_ttorg', time_format = 'num') %>% 
-    filter(trip_arr %in% c('ACC_WEB', 'TOTAL') & duration == 'N1-3' & time == 2017 & purpose == 'TOTAL') %>% 
+    filter(trip_arr %in% c('ACC_WEB', 'TOTAL') & duration == 'N1-3' & time == 2017 & 
+             purpose == 'TOTAL') %>% 
     pivot_wider(names_from = trip_arr, values_from = values) %>% 
     mutate(
       value = ACC_WEB/TOTAL
@@ -117,6 +93,319 @@ ggpubr::ggarrange(
 
 ```
 
+
+```{r Webscraping, eval = F}
+# Data ----------------------------------------------------------------------------------
+
+# Webscraping ===========================================================================
+
+cities <- readxl::read_excel("cities.xlsx") %>% 
+  # Please find this attached file at the corresponding GitHub repository
+  # This contains the cities we searched on Airbnb.com and the URL to the searching
+  mutate(
+    URL = str_replace_all(URL, 'airbnb.hu', 'airbnb.com')
+  )
+
+cities <- cities %>%
+  apply(1, function(x) {
+    n_rooms <- read_html(x[2]) %>%
+      html_nodes("._1snxcqc") %>%
+      html_text() %>%
+      {gsub(' .*', '', .)}
+    data.frame(city = x[1], url = x[2], n_rooms = n_rooms) 
+  }
+  ) %>%
+  reduce(rbind)
+
+### Recursive price filter ##############################################################
+
+RecPri_df <- cities %>%
+  filter(n_rooms == 'Több' | n_rooms == '300+' | n_rooms == '300' )
+
+for (i in 1:nrow(RecPri_df)) {
+  run <-  T
+  df <- seq(from = 10, to = 1500, length.out = 5) %>%
+    floor() %>%
+    {na.omit(data.frame(p1 = ., p2 = lead(.)))} %>%
+    mutate(
+      url = paste0(RecPri_df[i, 2], '&price_max=', p2, '&price_min=', p1)
+    ) 
+  
+  df$n_rooms <-  sapply(df$url, function(url) {
+    read_html(url) %>%
+      html_nodes("._1snxcqc") %>%
+      html_text() 
+  }
+  )
+  
+  while (run) {
+    df_still <- df %>% 
+      filter(str_detect(n_rooms, "300"))
+    
+    df <- df %>% 
+      filter(!str_detect(n_rooms, "300"))
+    
+    if (nrow(df_still) > 0) {
+      
+      
+      df_still <- apply(df_still, 1, function(x) {
+        seq(from = x[1], to = x[2], length.out = 3) %>%
+          floor() %>%
+          {na.omit(data.frame(p1 = ., p2 = lead(.)))} %>%
+          mutate(
+            url = paste0(RecPri_df[i, 2], '&price_max=', p2, '&price_min=', p1)
+          ) 
+      }
+      ) %>% 
+        reduce(rbind)
+      
+      df_still$n_rooms <-  sapply(df_still$url, function(url) {
+        tryCatch(
+        read_html(url) %>%
+          html_nodes("._1snxcqc") %>%
+          html_text() %>% 
+          as.character(),
+          error = function(e) NA)
+      }
+      )
+      
+      df <- rbind(df, na.omit(df_still))
+      print(df)
+    } else {
+      run <- F
+      cities <- df %>% 
+        mutate(city = RecPri_df[i, 1]) %>% 
+        select(city, url, n_rooms) %>% 
+        rbind(cities)
+    }
+  }
+}
+
+### Repeat the search to different dates and merge the result ###########################
+
+cities <- cities %>% 
+  filter(!str_detect(n_rooms, 'Több') & !str_detect(n_rooms, '300'))
+
+start_dates <- c(seq(from = 1, to = 89, by = 7), seq(from = 5, to = 92, by = 7)) %>% 
+  sort() 
+
+room_list_total <- data.frame()
+
+for (i in start_dates) {
+    cities_current <- cities %>% 
+      mutate(
+        url = str_replace_all(url, '2021-07-01', 
+                              as.character(as.Date(i, origin = '2021-05-30'))),
+        url = str_replace_all(url, '2021-07-04', 
+                              as.character(as.Date(ifelse(i %% 7 == 1, i + 3, i + 2), 
+                                                   origin = '2021-05-30')))
+      )
+
+cl <- makeCluster(7)
+clusterExport(cl, list("cities"), envir = environment())
+clusterEvalQ(cl, library(rvest))
+clusterEvalQ(cl, library(tidyverse))
+
+all_source <- parApply(cl = cl, cities_current, 1, function(x) {
+  page <- read_html(x[2])
+  n_rooms <- page %>% 
+    html_nodes("._1snxcqc") %>%
+    html_text() %>% 
+    {gsub(" s.*", "", .)} %>% 
+    as.numeric()
+  
+  df <- data.frame(city = x[1], url = x[2])
+  
+  if (!is.na(n_rooms) && n_rooms > 20) {
+    
+    df <- data.frame(
+      city = x[1],
+      url = html_nodes(page, xpath = 
+                         paste0('/html/body/div[4]/div/div/div/div[1]/main/div',
+                                '/div/div[1]/div[2]/div/div/div[1]/nav/div/a[1]')) %>% 
+        html_attr('href') %>% 
+        {paste0('https://www.airbnb.com', .)},
+      v = seq(from = 20, to = (n_rooms %/% 20)*20, by = 20)
+    ) %>% 
+      mutate(
+        url = str_replace(url, 'items_offset=20', paste0('items_offset=', v))
+      ) %>% 
+      select(-v) %>% 
+      rbind(df)
+  }
+  df
+}) 
+
+all_source <- reduce(all_source, rbind)
+
+room_list <- parApply(cl = cl, all_source, 1, function(x) {
+  tryCatch({
+    page <- read_html(x[2]) 
+    URL <- page %>%
+      html_nodes('._gjfol0') %>%
+      html_attr('href') %>% 
+      {paste0('https://www.airbnb.com', .)}
+    price <- page %>%
+      html_nodes('span._olc9rf0') %>%
+      html_text() %>% 
+      .[1:length(URL)]
+    place <- page %>%
+      html_nodes('._b14dlit') %>%
+      html_text() %>% 
+      .[1:length(URL)]
+    assesment <- page %>%
+      html_nodes('._18khxk1') %>%
+      html_text() %>% 
+      .[1:length(URL)]
+    data.frame(
+      city = x[1],
+      title = page %>%
+        html_nodes('._gjfol0') %>%
+        html_attr('aria-label'),
+      URL, price, place, assesment
+    )
+  }, error = function(e) NULL)
+})
+
+stopCluster(cl)
+
+room_list <- reduce(Filter(f = Negate(is.null), room_list), rbind)
+room_list_total <- rbind(room_list_total, room_list)
+
+}
+
+### Scrape all the rooms ################################################################
+
+room_list_total <- tibble(room_list_total) %>% 
+  filter(!duplicated(id)) %>%
+  filter(!is.na(assesment)) %>%
+  filter(str_detect(assesment, '\\.')) %>%
+  mutate(
+    price = as.numeric(str_remove_all(price, '\\$')),
+    n_reviews = gsub(pattern = '.*[(]', replacement = '', x = assesment) %>% 
+      gsub(pattern = ' .*', replacement = '') %>% 
+      as.numeric(),
+    assesment = gsub('\\s.*', '', assesment) %>%
+      as.numeric()
+  )
+
+room_interval <- 1:nrow(room_list_total) 
+
+raw_dat <- list()
+
+rD <- rsDriver(verbose = TRUE, 
+               port=48458L, 
+               chromever = '88.0.4324.27',
+               check = TRUE)
+
+remDr <- rD$client
+
+for (i in room_interval) {
+remDr$navigate(pull(room_list_total[i, ], URL))
+  
+    url_descript <- character()
+    url_amenities <- character()
+    url_reviews <- character()
+    host <- character()
+    rules <- character()
+    assesment <- character()
+    bed <- character()
+    comments <- character()
+    amenities <- character()
+    stars <- character()
+    
+    Sys.sleep(4)
+    page_room <- remDr$getPageSource()[[1]] %>% 
+      read_html() 
+    
+    page_room %>% 
+      html_nodes("._13e0raay") %>% 
+      html_attr("href") %>% 
+      {paste0("https://www.airbnb.com", .)} %>% 
+      {
+        url_amenities <<- str_subset(., "amenities")
+        url_reviews <<- str_subset(., "reviews")
+      }
+
+    host <- page_room %>% 
+      html_nodes("._14i3z6h") %>% # host
+      html_text()
+    
+    rules <- page_room %>% 
+      html_nodes("._u827kd") %>% # rules
+      html_text()
+    
+    bed <- page_room %>% 
+      html_nodes("._1a5glfg") %>% # bed
+      html_text()
+    
+    stars <- page_room %>% 
+      html_nodes("._1s11ltsf") %>% 
+      html_text()
+
+if (length(url_reviews) != 0 && url_reviews != 'https://www.airbnb.com') {
+  
+remDr$navigate(url_reviews)
+    Sys.sleep(6)     
+    comments <- remDr$getPageSource()[[1]] %>% 
+      read_html() %>% 
+      html_nodes('._1xib9m0') %>% 
+      html_text()
+    
+remDr$navigate(url_amenities)
+    Sys.sleep(3)     
+    amenities <- remDr$getPageSource()[[1]] %>% 
+      read_html() %>% 
+      html_nodes("._vzrbjl") %>% 
+      html_text()
+}
+  
+  raw_dat[[length(raw_dat) + 1]] <- list(
+    source = room_list_total[i, ],
+    url_amenities = url_amenities,
+    url_reviews = url_reviews,
+    host = host,
+    rules = rules,
+    bed = bed,
+    comments = comments,
+    amenities = amenities,
+    stars = stars
+  )
+}
+
+```
+
+
+```{r data}
+load('dat.RData')
+load('room_list.RData')
+```
+
+```{r theme}
+## Gg theme =============================================================================
+
+update_geom_defaults("point", list(color="#69b3a2", alpha=0.8))
+
+update_geom_defaults("line", 
+                     list(color = "midnightblue", size = 1.4))
+
+update_geom_defaults("smooth", list(color = "red4", size = 1.4))
+
+update_geom_defaults("density", 
+                     list(color = "midnightblue", fill =  "midnightblue",
+                          alpha = .3, size = 1.4))
+
+extrafont::loadfonts(device="win")
+
+theme_set(theme_minimal() + theme(
+  legend.direction = "vertical",
+  plot.caption = element_text(family = "serif")
+))
+
+```
+
+[leíró statok: eu bizottság felhívása]
+
 ```{r fig.cap = 'Starting points to our scrapping algorithm'}
 hun_cities <- read_csv("worldcities.csv") %>% 
   filter(country == "Hungary") %>% 
@@ -124,22 +413,16 @@ hun_cities <- read_csv("worldcities.csv") %>%
 
 cities <- readxl::read_excel("cities.xlsx")
 
-library("rnaturalearth")
-library("rnaturalearthdata")
-
 world <- ne_countries(scale = "large", returnclass = "sf")
-class(world)
 
 merge(cities, hun_cities, by = 'city') %>% 
   tibble() %>% 
   ggplot() +
   geom_sf(data = world, size = 1.2, fill = 'white', color = 'black') +
   coord_sf(xlim = c(16, 23.4), ylim = c(45.5, 48.7), expand = FALSE) +
-  geom_point(aes(x = lng, y = lat), size = 4, 
+  geom_point(aes(x = lng, y = lat), size = 4, alpha = 1, color = 'black',
              shape = 21, fill = viridis::viridis(1, begin = .1)) +
-  theme(
-    text = element_blank()
-  )
+  theme_void()
 
 ```
 
@@ -156,6 +439,8 @@ lapply(dat, function(x) {
   merge(hun_cities) %>% 
   {rbind(., mutate(., admin_name = 'Total'))} %>% 
   mutate(admin_name = fct_reorder(admin_name, admin_name == 'Total')) %>% 
+  select(admin_name, language) %>% 
+  na.omit() %>% 
   ggplot() +
   aes(y = admin_name, fill = language) +
   scale_x_continuous(labels = scales::percent, limits = c(0,1), expand = c(0,0)) +
@@ -167,15 +452,56 @@ lapply(dat, function(x) {
 
 \pagebreak
 
-```{r fig.cap="Words which correspond to high or low rating"}
-dat_words <- lapply(dat, function(x) { 
+```{r}
+room_list <- room_list_total %>% 
+  filter(!duplicated(id)) %>% 
+  filter(!is.na(assesment)) %>%
+  filter(str_detect(assesment, '\\.'))
+
+```
+
+```{r fig.cap='Scatter plot of overall ratings and prices'}
+room_list %>% 
+  ggplot() +
+  aes(assesment, price) +
+  geom_point(color="#69b3a2", alpha=0.8) +
+  geom_smooth() +
+  labs(x = 'Rating', y = 'Price')
+
+```
+
+```{r fig.cap='Empirical cumulative distribution functions of overall rating scores and the number of reviews'}
+ggpubr::ggarrange(
+room_list %>% 
+  ggplot() +
+  stat_ecdf(aes(x = assesment, color = 'ECDF based on the total population')) +
+  geom_blank(aes(color = 'ECDF filtered to that the rating is higher than 4.9')) +
+  labs(x = 'Assesment', y = 'Corresponding cumulative density', title = 'Assesment', 
+       color = NULL),
+room_list %>% 
+  ggplot() +
+  stat_ecdf(data = filter(room_list, assesment > 4.9), mapping = aes(n_reviews,
+                        color = 'ECDF filtered to that the rating is higher than 4.9')) +
+  stat_ecdf(aes(x = n_reviews, color = 'ECDF in the total population')) +
+  scale_x_log10() +
+  labs(x = 'Number of reviews (log scale)', title = 'Reviews') +
+  theme(
+    legend.position = 'bottom'
+  ), common.legend = T
+)
+
+```
+
+```{r}
+dat_words_eng <- lapply(dat, function(x) { 
   tryCatch({
     tibble(comments = x$comments) %>% 
       mutate(language = textcat::textcat(comments)) %>% 
       filter(language == "english") %>% 
       tail(-2) %>% 
       tidytext::unnest_tokens(words, comments, to_lower = T) %>% 
-      mutate(assesment = x[["source"]][["assesment"]], n_reviews = x[["source"]][["n_reviews"]]) 
+      mutate(assesment = x[["source"]][["assesment"]], 
+             n_reviews = x[["source"]][["n_reviews"]]) 
   }, error = function(e) NULL)
 }
 ) %>% 
@@ -184,85 +510,62 @@ dat_words <- lapply(dat, function(x) {
 ```
 
 ```{r}
-dat_words <- dat_words %>%
-  filter(n_reviews > 10 & words != 'bővebben') %>% 
-  mutate(type = case_when(
-    assesment >= quantile(assesment, .99) ~ 'High',
-    assesment <= quantile(assesment, .01) ~ 'Low',
+freq_by_rank_eng <- dat_words_eng %>% 
+  filter(n_reviews >= 15) %>% 
+  mutate(
+    type = as.numeric(Hmisc::cut2(assesment, g = 10, levels.mean = T)),
+    type = case_when(
+    type == min(type) ~ 'Low',
+    type == max(type) ~ 'High',
     T ~ 'Middle'
-  ))
-
-dat_words_High <- dat_words %>% 
-  filter(type == 'High') %>% 
-  group_by(words) %>% 
-  summarise(n = n()) %>% 
-  ungroup() %>% 
-  merge(dat_words %>% 
-          group_by(words) %>% 
-          summarise(total = n()) %>% 
-          ungroup()) %>% 
-  filter(n >= 10) %>% 
-  mutate(
-    rtf = n/total, type = 'High'
+    ),
   ) %>% 
-  arrange(desc(rtf)) %>% 
-  anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
-  head(50)
+{
+df <- .
+      df <- df %>% 
+        group_by(type, words) %>% 
+        summarise(n = n()) %>% 
+        ungroup()
+      merge(
+      df, 
+      df %>% 
+        group_by(type) %>% 
+        summarise(total = sum(n)) 
+    )
+  } %>% 
+  arrange(desc(n)) %>% 
+  group_by(type) %>% 
+  mutate(rank = row_number(), 
+         `term frequency` = n/total) %>% 
+  ungroup()
 
-dat_words_Low <- dat_words %>% 
-  filter(type == 'Low') %>% 
-  group_by(words) %>% 
-  summarise(n = n()) %>% 
-  ungroup() %>% 
-  merge(dat_words %>% 
-          group_by(words) %>% 
-          summarise(total = n()) %>% 
-          ungroup()) %>% 
-  filter(n >= 10) %>% 
-  mutate(
-    rtf = n/total, type = 'Low'
-  ) %>% 
-  arrange(desc(rtf)) %>%
-  anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
-  head(50)
 ```
 
-```{r fig.cap="Words which correspond to high or low rating"}
-rbind(dat_words_Low, dat_words_High) %>%  
-  reshape2::acast(words ~ type, value.var = "rtf", fill = 0) %>%
+```{r}
+freq_by_rank_eng %>% 
+  filter(type == 'High' | type == 'Low') %>% 
+  ggplot(aes(rank, `term frequency`, color = type)) + 
+  geom_line(size = 1.1, alpha = 0.8) + 
+  scale_x_log10() +
+  scale_y_log10()
+
+```
+
+
+```{r}
+freq_by_rank_eng %>% 
+  select(words, type, n) %>%
+  bind_tf_idf(term = words, document = type, n = n) %>% 
+  anti_join(data.frame(words = c(stopwords::stopwords(), "also", "can"))) %>% 
+  filter(type != 'Middle' & n > 20) %>% 
+  arrange(desc(tf_idf)) %>% 
+  group_by(type) %>%
+  group_modify(~ head(mutate(.x, rank = row_number()), 50)) %>% 
+  reshape2::acast(words ~ type, value.var = "rank", fill = 0) %>%
   wordcloud::comparison.cloud(colors = viridis::viridis(2, direction = -1 , end = .7),
-                              max.words = 100)
+                              max.words = 50)
 
 ```
-
-```{r}
-room_list <- room_list_total %>% 
-  filter(!duplicated(id)) %>% 
-  filter(!is.na(assesment)) %>%
-  filter(str_detect(assesment, '\\.'))
-```
-
-```{r}
-room_list %>% 
-  ggplot() +
-  aes(assesment, price) +
-  geom_point() +
-  geom_smooth()
-```
-
-```{r fig.cap='Empirical cumulative distribution functions'}
-room_list %>% 
-  ggplot() +
-  stat_ecdf(aes(x = assesment))
-  
-room_list %>% 
-  ggplot() +
-  stat_ecdf(aes(x = n_reviews)) +
-  stat_ecdf(data = filter(room_list, assesment == 5), mapping = aes(n_reviews)) +
-  scale_x_log10()
-```
-
-
 
 
 # Theoretical consideration
@@ -277,17 +580,17 @@ room_list %>%
 
 # Summary
 
-\pagebreak
 
-\nocite{*}
 
 ```{=tex}
+\pagebreak
+\nocite{*}
 \bibliography{airbnb-research}
 \bibliographystyle{agsm}
-```
 \pagebreak
+```
 
 # Appendix: R codes
 
-```{r ref.label=setdiff(knitr::all_labels(), c("setup")), eval=FALSE, echo=T, attr.source='.numberLines'}
+```{r ref.label=setdiff(knitr::all_labels(), c("setup", "data", "theme")), eval=FALSE, echo=T, attr.source='.numberLines'}
 ```

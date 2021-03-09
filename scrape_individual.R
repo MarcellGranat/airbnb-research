@@ -32,12 +32,12 @@ room_list_total <- tibble(room_list_total) %>%
       as.numeric()
   )
 
-room_interval <- 4651:nrow(room_list_total) 
+room_interval <- 6900:nrow(room_list_total) 
 # TODO MODIFY
 raw_dat <- list()
 
 rD <- rsDriver(verbose = TRUE, 
-               port=48458L, 
+               port=48460L, 
                chromever = '88.0.4324.27',
                check = TRUE)
 
