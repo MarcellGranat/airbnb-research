@@ -30,10 +30,11 @@ editor_options:
 Public perception of shared goods and/or services has changed significantly in the last few years. Shared accommodations have gained so great popularity, that house and flat sharing platforms like Airbnb now rival some of the world’s largest businesses in hospitality. Sharing of personal properties provides an opportunity for owners to lower the transaction costs of operating short-term rentals and online rental marketplaces connect people who want to rent out their dwellings with the ones who are looking for accommodations. This study is aimed at determining the perceived behavior of individuals choosing Airbnb and introducing what factors influence user ratings and consumer adoption of Airbnb while assuming that customer feedbacks significantly influence consumer choice. We also analyze the market trends of the Hungarian Airbnb accommodations as primary examples of sharing or collaborative economy. Weekly data was collected for the Hungarian accommodation establishments all over the country. We aimed to build a complete dataset of the active suppliers by using automated “web scraping” techniques during a certain window of time. Our database contained customer ratings, reviews and pieces of public information concerning the rooms. We performed an advanced text analysis of the variables mentioned previously. 
 \end{abstract}
 ```
-
+```{=tex}
 \listoftables
 \listoffigures
 \pagebreak
+```
 
 # Introduction
 
@@ -92,7 +93,6 @@ ggpubr::ggarrange(
 )
 
 ```
-
 
 ```{r Webscraping, eval = F}
 # Data ----------------------------------------------------------------------------------
@@ -375,7 +375,6 @@ remDr$navigate(url_amenities)
 
 ```
 
-
 ```{r data}
 load('dat.RData')
 load('room_list.RData')
@@ -425,6 +424,28 @@ merge(cities, hun_cities, by = 'city') %>%
   theme_void()
 
 ```
+
+```{r}
+sf::read_sf('kozighatarok/admin8.shp') %>% 
+  ggplot() +
+  geom_sf() + 
+  geom_point(data = merge(cities, hun_cities, by = 'city'), mapping = aes(x = lng, y = lat),size = 4, alpha = 1, color = 'black',
+             shape = 21, fill = viridis::viridis(1, begin = .1))
+```
+
+
+```{r}
+room_list_total %>% 
+  filter(!duplicated(id)) %>% 
+  select(geo = place) %>% 
+  mutate(
+    place = geo,
+    geo = gsub('.*in ', '', place),
+    geo = ifelse(str_detect(geo, 'District') | geo == 'Buda'| geo == 'Pest', 'Budapest', geo)
+  )
+```
+
+
 
 ```{r langugae_distribution, fig.cap="Most common languages found in the comments by counties"}
 lapply(dat, function(x) {
@@ -539,20 +560,6 @@ df <- .
          `term frequency` = n/total) %>% 
   ungroup()
 
-```
-
-```{r}
-freq_by_rank_eng %>% 
-  filter(type == 'High' | type == 'Low') %>% 
-  ggplot(aes(rank, `term frequency`, color = type)) + 
-  geom_line(size = 1.1, alpha = 0.8) + 
-  scale_x_log10() +
-  scale_y_log10()
-
-```
-
-
-```{r}
 freq_by_rank_eng %>% 
   select(words, type, n) %>%
   bind_tf_idf(term = words, document = type, n = n) %>% 
@@ -567,8 +574,52 @@ freq_by_rank_eng %>%
 
 ```
 
+```{r}
+dat_rooms <- room_list_total %>%
+group_by(id) %>% 
+  summarise(n_reviews = max(n_reviews, na.rm = T),
+            assesment = mean(assesment, na.rm = T),
+            price = mean(price, na.rm = T)
+            ) %>% 
+  mutate_all(function(x) ifelse(is.na(x) | x < 0, NA, x)) %>% 
+  merge(
+    room_list_total %>% 
+      filter(!duplicated(id)) %>% 
+      select(geo = place, id) %>% 
+      mutate(
+        room_type = gsub(' in.*', '', geo),
+        geo = gsub('.*in ', '', geo),
+        geo = ifelse(str_detect(geo, 'District') | geo == 'Buda'| geo == 'Pest', 'Budapest', geo),
+        geo = str_remove_all(geo, '\"'),
+        geo = str_remove_all(geo, '\\d'),
+        geo = trimws(geo)
+      ),
+    all = T
+  )
+
+dat_rooms %>% 
+  group_by(geo) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  rename(city = geo) %>% 
+  merge(
+    cities, all = T
+  ) %>% 
+  tibble() %>% 
+  rename(NAME = city) %>% 
+  merge(
+    sf::read_sf('kozighatarok/admin8.shp') %>% 
+      cbind(areasize = area(shapefile('kozighatarok/admin8.shp'))/ 1000000), all.y = T
+  ) %>% 
+  ggplot() +
+  geom_sf(aes(fill = n/areasize, geometry = geometry)) + 
+  scale_fill_viridis_b()
+```
+
 
 # Theoretical consideration
+
+@hornik2013
 
 # Data
 
@@ -580,16 +631,13 @@ freq_by_rank_eng %>%
 
 # Summary
 
-
-
 ```{=tex}
 \pagebreak
 \nocite{*}
-\bibliography{airbnb-research}
-\bibliographystyle{agsm}
+\bibliography{references}
+\bibliographystyle{apa}
 \pagebreak
 ```
-
 # Appendix: R codes
 
 ```{r ref.label=setdiff(knitr::all_labels(), c("setup", "data", "theme")), eval=FALSE, echo=T, attr.source='.numberLines'}
