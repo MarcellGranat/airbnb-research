@@ -1,0 +1,55 @@
+# Conclusion {#Chapter-5}
+
+```{css, echo=FALSE}
+p {
+  text-align: justify;
+}
+```
+
+
+In this paper, we aimed to understand what factors drive the use of shared accommodations and what are the key influencers of customer satisfaction concerning the tourist accommodation service provided by Airbnb all over Hungary. We obtained data from the Airbnb website by using web scraping techniques and examined these through text analysis. Two main statistical tools were used to quantify and visualize Airbnb users’ online review comments: the TF-IDF (term frequency-inverse term frequency) analysis and Lasso-based feature selection (lasso regression) – both by using R software. To investigate customer satisfaction and its key influencers, we chose to analyze user ratings and reviews comments. Our study has provided empirical evidence for several factors, that play an important role in evaluating customer experiences. Most of them corresponded with the ones suggested by the extant literature. In some cases, different statistical models provided different – a couple of times contradictory – results. In the following, we report the results of descriptive statistics.
+
+A positivity bias was identified towards the hosts in the comment reviews: the vast majority of the apartments had a user rating of 4.75 or above. The related literature also supports our finding that user ratings tend to be unambiguously positive. This phenomenon can be explained with two types of bias: (1) purchasing bias – only consumers with a favorable disposition towards a service purchase the service, and (2) under-reporting bias – consumers with polarized reviews are more likely to report their reviews (Hu et al., 2009).
+We found that there is a considerable number of fake reviews (written by the host themselves or friends), because the probability that the number of reviews takes on a value less or equal to a given number is higher, if user ratings are outstandingly high.
+
+Surprisingly, ‘accuracy’ (the timing of the experience, the name of the host, the location, a list of what is provided, and what guests will do) was not identified as a key determinant of user ratings. According to these, we concluded that a hosts’ ‘trustworthiness’ is not as important as collaborative consumption suggests. Although ‘location’ was considered a highly valued aspect by some of the other papers, we found that it is not highly related with overall user ratings. ‘Cleanliness’, however, seemed to play a significant role in customer satisfaction.
+
+In the TF-IDF part, we derived information from customer reviews by transforming them into structured data. TF-IDF analysis is a technique that evaluates how relevant a word is to a document across a set of documents. We aimed to categorize words from review comments into the upper decile group, the bottom decile group or the intermediate category by overall user ratings.
+
+We found that service users were *not completely satisfied* with the ‘flexibility of the host’ concerning low-rated flats by identifying keywords such as ‘compensation’ and ‘cancel’ in the reviews. ‘Robberies’ were also mentioned several times in the case of these properties. Terms related to amenities and cleanliness also appeared in a negative aspect. 
+
+The research revealed that the relative frequency of names is extremely high among properties with high user ratings. This confirmed our assumptions that the Airbnb platform establishes a direct and more intimate relationship between host and user. In conclusion, ‘host’ as an attribute *positively influences* guest satisfaction to a great extent.
+
+In the Lasso-based feature selection part, we performed a lasso regression-based classification of the words. Words were classified into three categories: positive words (flats with a user rating equal to or above 4.9), negative words (flats which were given 4.5 stars or below) and neutral words. This method was very similar to the one used in the TF-IDF part.
+
+Based on this model, ‘location’ and ‘amenities’ are the attributes, that stood out mostly among review comments, contributing to guest satisfaction in an *unfavorable way*. Although ‘price’ has not been defined as a key determinant of overall user ratings by previous tools, this model ranked it very high in determining (*negative*) customer experience. However, it is not directly ‘price’, but ‘value-for-money’ is the term commonly used.
+
+ Factors that contribute *favorably* to user satisfaction are ‘equipped’ and ‘furnished [apartments]’ (with many amenities), which appeared as people’s top priority. ‘Location’ was also a significant factor. The high presence of positive opinions about location in the comments gave evidence that it highly determines users’ overall satisfaction. ‘Hosts’ also play an important role in evaluating customer experiences. Although ‘price’ has not been defined as a key determinant of overall user ratings by the previous tools, this model ranked it very high in determining (negative) customer experience. The reason for this is that the word ‘price’ in customer reviews refers to ‘value-for-money’ numerous times.
+
+We also illustrated the graph of bigrams related to the lasso regression model results. The words displayed were classified into three categories based on the method presented in the previous model. This tool is useful when a term by itself does not provide meaningful information, yet appears because it represents the information of the other word connected.
+In conclusion, the answer to our research question that “*what are the key factors that influence customer satisfaction concerning the Airbnb flats in Hungary?*” is the following: the research identified four main attributes, that form the majority of online review comments on the Hungarian Airbnb website. These are ‘amenities’, ‘host’, ‘location’ and ‘cleanliness’.
+
+By investigating the nature of customer review comments, we acquire a deeper understanding of customer preferences. Our findings can be used for researching other segments of collaborative consumption and the future of short-term rentals such as Airbnb. The results obtained in this paper can serve as benchmark data in further research, while enabling us to look at time trends.
+
+## Literature
+
+* [A Europan Agenda for the collaborative economy, 2016] A Europan Agenda for the collaborative economy (2016). : A europan agenda for the collaborative economy.
+* [Barbosa, 2019] Barbosa, S. R. P. (2019). *Airbnb customer satisfaction through online reviews.* PhD thesis.
+* [Bridges and Vásquez, 2018] Bridges, J. and Vásquez, C. (2018). If nearly all airbnb reviews are positive, does that make them meaningless? *Current Issues in Tourism*, 21(18):2057–2075.
+* [Cheng and Jin, 2019] Cheng, M. and Jin, X. (2019). What do airbnb users care about? an analysis of online review comments. *International Journal of Hospitality Management*, 76:58–70.
+* [Ert et al., 2016] Ert, E., Fleischer, A., and Magen, N. (2016). Trust and reputation in the sharing economy: The role of personal photos in airbnb. *Tourism management*, 55:62–73.
+* [Feinerer et al., 2013] Feinerer, I., Buchta, C., Geiger, W., Rauch, J., Mair, P., and Hornik, K. (2013). The textcat package for n-gram based text categorization in r. *Journal of statistical software*, 52(6):1–17.
+* [Guttentag and Smith, 2017] Guttentag, D. A. and Smith, S. L. (2017). Assessing airbnb as a disruptive innovation relative to hotels: Substitution and comparative performance expectations. *International Journal of Hospitality Management*, 64:1–10.
+* [Hu et al., 2009] Hu, N., Pavlou, P. A., and Zhang, J. J. (2009). Why do online product reviews have a j-shaped distribution? overcoming biases in online word-of-mouth communication. *Communications of the ACM*, 52(10):144–147.
+* [Lee et al., 2019] Lee, C. K. H., Tse, Y. K., Zhang, M., and Ma, J. (2019). Analysing online reviews to investigate customer behaviour in the sharing economy: The case of airbnb. Information Technology & People.
+* [Midgett et al., 2018] Midgett, C., Bendickson, J. S., Muldoon, J., and Solomon, S. J. (2018). The sharing economy and sustainability: A case for airbnb. Small Business Institute Journal, 13(2):51–71.
+* [PWC, 2016] PWC (2016). *Sharing or paring?*
+* [PwC, 2016] PwC, U. (2016). Assessing the size and presence of the collaborative economy in europe. *Report Delivered to EC.*
+* [Silge and Robinson, 2017] Silge, J. and Robinson, D. (2017). *Text mining with R: A tidy approach.* O’Reilly Media, Sebastopol, CA.
+* [Tussyadiah and Pesonen, 2016] Tussyadiah, I. P. and Pesonen, J. (2016). Impacts of peer-to-peer accommodation use on travel patterns. *Journal of Travel Research*, 55(8):1022–1040.
+* [Valant, 2015] Valant, J. (2015). *Consumer protection in the EU. Policy overview.*
+* [Zervas et al., 2017] Zervas, G., Proserpio, D., and Byers, J. W. (2017). The rise of the sharing economy: Estimating the impact of airbnb on the hotel industry. *Journal of Marketing Research*, 54(5):687–705.
+* [Zervas et al., 2020] Zervas, G., Proserpio, D., and Byers, J. W. (2020). A first look at online reputation on airbnb, where every stay is above average. *Marketing Letters*, pages 1–16.
+* [Zhang and Fu, 2020] Zhang, Z. and Fu, R. J. (2020). Accommodation experience in the sharing economy:
+* A comparative study of airbnb online reviews. *Sustainability*, 12(24):10500.
+

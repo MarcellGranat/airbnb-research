@@ -1,0 +1,243 @@
+# Data {#Chapter-2}
+
+```{css, echo=FALSE}
+p {
+  text-align: justify;
+}
+```
+
+## Data collection
+
+Our research is based on the customer reviews available on the Hungarian Airbnb website. We chose to examine the high season^[ KSH (2019): Helyzetkép a turizmus, vendéglátás ágazatról, figure 7] – the time interval between May 31 and August 29 – which enabled us to investigate the entire population of Airbnb users in Hungary during the summer. Airbnb’s search engine has three characteristics that are important to mention: (1) it lists properties within a given radius, (2) there is a necessity of using an iterative price filter to find every apartment in a settlement, and (3) it provides a limited availability of comments (about a maximum of 40 per property). These will be discussed later in this study.
+
+We collected information about over 8,700 Airbnb properties listed in Hungary (downloaded on March 5, 2021). For each property, the database we generated contained the property’s unique id, its URL address, the type of place (entire place, private room, shared room), the name of the host, an approximate location (Airbnb does not provide an accurate location for listings before booking), price, the number of reviews, star ratings (for the overall experience and for specific categories including cleanliness, accuracy, communication, location, check-in, and value-for-money), a description and customer reviews. We aimed to collect data about the whole territory of Hungary, which enabled us to detect territorial typologies concerning travelers’ accommodation preferences and identify as many patterns in the data as possible. 
+
+The first step in the data collection process was creating a list of the potential settlements in Hungary. The list included the 50 largest settlements in Hungary by population^[Hungarian Central Statistical Office (2020): 50 largest settlements in Hungary, available at: https://www.ksh.hu/stadat_files/fol/en/fol0014.html] supplemented by the most visited settlements in Hungary^[KSH (2019): Kereskedelmi szálláshelyek vendégforgalma – Magyaroszág kereskedelmi szálláshelyei, available at: https://www.ksh.hu/turizmus-vendeglatas]. The reason why we combined the aforementioned datasets is that we aimed to cover all regions of Hungary, which – in some cases – meant that we added settlements manually to the list in order to fill the gaps on the map. As a result, we got a list of 115 settlements (Figure 3). As previously mentioned, there was a necessity to use an iterative price filter in order to find every Airbnb flat in a settlement. We faced this difficulty in the case of locations with more than 300 listings, because Airbnb only displays 300 listings at a time. If a price filter had not been used, the rest of the listings would have been omitted from the results. To avoid this, we introduced a price filter. The search results now presented only the listings that were within the chosen range of price, which reduced search results.  
+
+```{r fig.cap = 'Starting points of our scraping algorithm', fig.height=3}
+
+cities <- readxl::read_excel("cities.xlsx")
+hun_cities <- read_csv('worldcities.csv') %>% 
+  filter(iso2 == 'HU')
+
+world <- ne_countries(scale = "large", returnclass = "sf")
+
+merge(cities, hun_cities, by = 'city') %>% 
+  tibble() %>% 
+  ggplot() +
+  geom_sf(data = world, size = 1.2, fill = 'white', color = 'black') +
+  coord_sf(xlim = c(16, 23.4), ylim = c(45.5, 48.7), expand = FALSE) +
+  geom_point(aes(x = lng, y = lat), size = 4, alpha = 1, color = 'black',
+             shape = 21, fill = viridis::viridis(1, begin = .1)) +
+  theme_void()
+
+```
+
+As a second step, we collected information from the Airbnb website by searching for properties in every settlement we listed previously. Airbnb’s search algorithm provides listings within a certain radius from the center of the search. Although we had to remove duplicates and the properties that are not located in Hungary, we could easily detect and add a large number of new cities and villages to the list, which now consisted of 575 settlements all over the country, 8700 apartments (rooms) and over 78,000 review comments.
+
+```{r}
+dat_rbnb %>% 
+  merge(rename(hun_counties, geo = city)) %>% 
+  count(county) %>% 
+  knitr::kable(caption = 
+                 'Number of avaiable accomodations by counties on the Airbnb website',
+               align = c('l', 'c'), col.names = c('County', 'Number of settlements'))
+
+```
+
+Table 1 displays the distribution of Airbnb flats (rooms) in Hungary by county. It can be seen, that more than 5000 properties are located in Budapest. Although most of the English comments belong to the properties located in the capital, the large proportion of these accommodations in the population greatly determines the overall distribution of the language of comments (Figure 4). A higher ratio of Hungarian comments in other counties indicates that domestic tourism is more significant in these regions – according to data published by the *Hungarian Central Statistical Office* (2019) the number of domestic tourism nights spent in commercial accommodation is higher in the case of properties in the most popular rural destinations such as Hajdúszoboszló and settlements near Lake Balaton.
+
+To identify the language in which a review was written, we used text categorization based on character n-gram frequencies. This function is included in an R extension package (*textcat*) which is used “for natural language processing, in particular by providing the infrastructure for general statistical analyses of frequency distributions of (character or byte) n-grams” (Mair, 2013). A drawback of the algorithm is that since it searches for word combinations, it systematically misidentifies the language of comments that contain only a few words (e. g. “perfect”), which are relatively frequent – based on the existing literature (Cheng, 2019 p. 62, Fig. 2). To avoid this, we assigned them to the appropriate language manually. In this study, we only focus on the comments written in English, since their proportion is extremely high – as mentioned previously.
+
+
+```{r fig.cap="Most common languages found in the comments by counties", fig.height=5}
+dat_comments %>%  
+  merge(dat_rbnb) %>% 
+  select(id, language, geo) %>% 
+  mutate(
+    geo = ifelse(str_detect(geo, 'Budapest'), 'Budapest', geo)
+  ) %>% 
+  merge(rename(hun_counties, geo = city)) %>% 
+  tibble() %>% 
+  mutate(
+    language = fct_lump(language, n = 3) %>% 
+      fct_infreq()
+  ) %>% 
+  {rbind(., mutate(., county = 'Total'))} %>% 
+  mutate(county = fct_reorder(county, county == 'Total')) %>% 
+  select(county, language) %>% 
+  na.omit() %>% 
+  ggplot() +
+  aes(y = county, fill = language) +
+  scale_x_continuous(labels = scales::percent, limits = c(0,1), expand = c(0,0)) +
+  geom_bar(color = "black", position = position_fill()) +
+  scale_fill_viridis_d() +
+  labs(x = 'Proportion of comments', y = NULL, fill = "Language")
+
+```
+
+After removing the properties with no reviews, our database contained approximately 6000 apartments (rooms) and a total of about 65,000 review comments after removing the ones written in languages other than English. By using Big Data (a large sample size), we were able to decrease the likelihood of committing a type II error, which thus increases the power of the study. However, only a limited number of comments (about a maximum of 40 per property, depending on the number of characters used) is visible on the Airbnb website.
+
+## Descriptive statistics
+
+Although we did not examine the direct impact of Airbnb on hotels and the hospitality industry in this paper, we aimed to compare the distribution of prices per night concerning Airbnb flats and traditional hotels (shown in Figure 5). For this, we collected information about over 16,000 hotels from Booking.com by using web scraping techniques. The distribution of prices for Airbnb properties and traditional hotels has a large kurtosis, which means that there are high probabilities of extremely high and extremely low prices in both cases. The empirical density function indicates a median of 79 dollars for Airbnb and 85 dollars for hotels, and a mean of 130 dollars for Airbnb, and 126 dollars for hotels. In conclusion, even though the top motivation of tourists to choose Airbnb is its comparatively low cost (Guttentag, 2017), we found that the distribution of prices is very similar in the case of the two types of accommodation.
+
+```{r fig.cap = 'Comparison of prices per night: Airbnb and Booking.com', fig.height=4}
+ggpubr::ggarrange(
+  (booking_prices * 0.0033) %>%  # 1 HUF means 0.0033 US $ -> 2021-05-08 <-
+    {tibble(type = 'Booking.com', price = .)} %>% 
+    rbind(tibble(type = 'Airbnb.com', price = dat_rbnb$price)) %>% 
+    mutate(type = fct_reorder(type, price, .desc = F)) %>% 
+    ggplot() +
+    aes(price, fill = type) + 
+    geom_density(alpha = .5, color = 'black', size = .3) + 
+    scale_x_continuous(limits = c(10, 1000)) + 
+    labs(x = 'Price per night in dollars', y = NULL, fill = 'Source',
+         caption = 
+           'Distribution of prices on Booking.com is drawn based on 16059 observations. 
+         \n Source: https://www.booking.com
+         \n Download at 2020-05-02')
+)
+```
+
+```{r eval = F}
+(booking_prices * 0.0033) %>%  # 1 HUF means 0.0033 US $ -> 2021-05-08 <-
+  {tibble(type = 'Booking.com', price = .)} %>% 
+  rbind(tibble(type = 'Airbnb.com', price = dat_rbnb$price)) %>% 
+  pivot_wider(names_from = type, values_from = price) %>% 
+  skimr::skim()
+```
+
+Figure 6 shows the number of Airbnb accommodations per capita by territorial units. It can be seen, that the relative number of those properties located in the immediate vicinity of Lake Balaton is very high. According to data published by the *Hungarian Central Statistical Office* (2021), among the first 100 most-visited settlements concerning domestic tourism nights in 2020, there were 25 located near Lake Balaton.
+
+```{r fig.cap='Number of Airbnb accomodations per capita by territorial units', fig.height=3.5}
+dat_rbnb %>% 
+  transmute(NAME = ifelse(str_detect(geo, 'Budapest'), 'Budapest', geo)) %>% 
+  count(NAME) %>%
+  merge(rename(hun_counties, NAME = city), all = T) %>% 
+  mutate(n = n/pop) %>% 
+  merge(
+    sf::read_sf('kozighatarok/admin8.shp'), all.y = T
+  ) %>% 
+  ggplot() +
+  geom_sf(aes(fill = n, geometry = geometry), size  =.2, color = 'black') + 
+  scale_fill_viridis_c(direction = -1, option = 'magma', na.value = 'white',
+                       guide =
+                         guide_colorsteps()) +
+  labs(fill = NULL) +
+  theme_void()
+
+```
+
+Figure 7 illustrates the relationship between price and user ratings. A slope of zero means that the value of user rating is constant no matter the value of price. Knowing the price of the apartment does not reduce the uncertainty associated with user ratings. *Cheng* (2019) also found, that “price was not treated as important as other attributes when evaluating Airbnb experiences” (Cheng, 2019 p. 61). This was predictable, since – in contrast to other factors determining customer satisfaction such as cleanliness (as discussed later), – the exact value of the price is already known to the customer before using the service.
+
+```{r fig.cap='Scatter plot of overall ratings and prices', fig.height=3, fig.height=4.5}
+dat_rbnb %>% 
+  filter(assesment != 0 & price < 1500) %>% 
+  ggplot() +
+  aes(assesment, price) +
+  geom_point(color="#69b3a2", alpha=0.8) +
+  geom_smooth(method = 'lm') +
+  labs(x = 'Rating', y = 'Price per night in dollars', subtitle = expression(R^2~'='~'0.00%'))
+
+```
+
+```{r eval = F}
+dat_rbnb %>% 
+  filter(assesment != 0 & price < 1500) %>% 
+  lm(formula = assesment ~ price) %>% 
+  {broom::tidy(.); broom::glance(.)}
+
+```
+
+The empirical cumulative distribution function (ECDF) provides an alternative visualization of distribution (Figure 8). In the graph, the x-axis is assessment (or user rating) and the y-axis is cumulative density corresponding to the assessment. We found that there is a “positivity bias” (Zervas et al., 2015) towards the hosts in the comment reviews: over 60 percent of the observations (properties) have a user rating of 4.75 or above. The existing literature also supports this: “several empirical papers have analyzed the rating distributions that arise on major review platforms, most arriving at a similar conclusion: ratings tend to be overwhelmingly positive, occasionally mixed with a small but noticeable number of highly negative reviews” (Zervas et al., 2015). According to *Hu et al.* (2009), “this implies two biases: (1) purchasing bias – only consumers with a favorable disposition towards a service purchase the service, and have the opportunity to write a review, and (2) under-reporting bias – consumers with polarized (either positive or negative) reviews are more likely to report their reviews than consumers with moderate reviews”. The distribution of the online review comments is also referred to as a J-shaped distribution (shown in Figure 8). Figure 8 also illustrates the empirical cumulative distribution of reviews. 
+
+It is plain to see, that where the value of user rating is higher than 4.9, the number of comments is lower. As mentioned previously, only approximately 40 review comments per property (room) is visible on the Airbnb website, and as a result, we only had limited information to process when assessing the relationship between the number of reviews and user ratings – in the case of properties with a large number of reviews, it led to statistical noise. However, below 40 comments, it is visible that the probability that the number of reviews takes on a value less or equal to a number is higher, if user ratings are higher than 4.9. This led to the conclusion that there is a considerable amount of fake reviews. According to *Valant* (2015), “tools for increasing consumer awareness and raising their trust in the market should not, however, mislead consumers with fake reviews, which, according to different estimates, represent between 1% and 16% of all 'consumer' reviews.”
+
+
+
+```{r fig.cap='Empirical cumulative distribution functions of overall rating scores and the number of reviews', fig.height=5}
+max_comment <- max(pull(count(dat_comments, id), n))
+
+ggpubr::ggarrange(
+  dat_rbnb %>% 
+    ggplot() +
+    stat_ecdf(aes(x = assesment, color = 'ECDF based on the total population')) +
+    geom_blank(aes(color = 'ECDF filtered to that the rating is higher than 4.9')) +
+    scale_x_continuous(limits = c(1, 5), expand = c(0,0)) +
+    labs(x = 'Assesment', y = 'Corresponding cumulative density', title = 'Assesment',
+         color = NULL, linetype = NULL) +
+    scale_linetype_manual(values = c(2)) +
+    theme(
+      legend.position = 'bottom',
+      legend.box = 'vertical'
+    ) +
+    geom_vline(aes(xintercept = as.numeric(NA), 
+                   linetype = 'Maximum number of available comments per accomodation')),
+  dat_rbnb %>% 
+    ggplot() +
+    stat_ecdf(data = filter(dat_rbnb, assesment > 4.9), 
+              mapping = aes(n_reviews,
+                            color = 
+                              'ECDF filtered to that the rating is higher than 4.9')) +
+    stat_ecdf(aes(x = n_reviews, color = 'ECDF in the total population')) +
+    scale_x_log10(breaks = c(1, 10, max_comment, 100)) +
+    geom_vline(aes(xintercept = max_comment, 
+                   linetype = 'Maximum number of available comments per accomodation')) + 
+    labs(x = 'Number of reviews (log scale)', y = NULL,
+         title = 'Reviews', linetype = NULL) +
+    scale_linetype_manual(values = c(2)) +
+    theme(
+      legend.position = 'bottom',
+      legend.box = 'vertical'
+    ), common.legend = T
+)
+
+```
+
+Since the focus of our study is customer preferences, we presented the key factors that determine overall ratings in Figure 9. Our theoretical consideration is that the overall rating is the explained and the others are explanatory variables. To filter out multicollinearity (the situation where explanatory variables are highly related) we illustrated the partial linear correlation coefficients. ‘Accuracy’^[This includes the timing of the experience, the name of the host, the location, a list of what is provided, and what guests will do. (Airbnb, 2018, available at: https://blog.atairbnb.com/accuracy/)] was not identified as a key influencer of user ratings, which was contrary to our expectations, considering that ‘accuracy’ is mainly viewed as the ‘host trustworthiness’, and the currency of sharing economy is trust. Other researchers also argue that “the level of hosts' trustworthiness, mainly as inferred from their photos, affects listings' prices and probability of being chosen, even when all listing information is controlled for” (Ert et al., 2016). According to Figure 11, ‘location’ and overall user ratings are not highly related. Cheng (2019) also found that ‘location’ was not statistically significant in influencing user satisfaction. ‘Cleanliness’, however, plays a significant role in people’s satisfaction (Bridges & Vazquez, 2018). It is important to note that the factors indicated are the ones that appear on the website of Airbnb, not the ones that we flagged as key determinants of customer reviews and satisfaction later in the study. However, common elements were found by using text mining techniques where we also gave explanations for the relationships.
+
+```{r fig.cap = 'Correlation and partial correlation coefficients among customer ratings for different categories', fig.height=3.5}
+dat_rbnb %>% 
+  select(assesment, starts_with('stars')) %>% 
+  na.omit() %>% 
+  {list(cor(.), ppcor::pcor(.)$estimate)} %>% 
+  lapply(function(x) {
+    rownames_to_column(data.frame(x), var = 'x') %>% 
+      pivot_longer(-1, names_to = 'y') %>% 
+      mutate(r = row_number())
+  }) %>% 
+  reduce(rbind) %>% 
+  mutate(
+    r = cumsum(ifelse(r == 1, 1, 0))
+  ) %>% 
+  mutate_at(1:2, .funs = function(x) {
+    case_when(
+      x == 'assesment' ~ 'Overall rating',
+      str_remove_all(x, 'stars_') == 'value' ~ 'Value-for-money',
+      str_remove_all(x, 'stars_') == 'checkin' ~ 'Check-in',
+      T ~ str_remove_all(x, 'stars_')
+    ) %>% 
+      str_to_title() 
+  }
+  ) %>% 
+  mutate_at(.vars = 1:2, function(x) factor(x, ordered = T,
+                                            levels = 
+                                              c(setdiff(unique(x), 'Overall rating'),
+                                                'Overall rating'))) %>% 
+  mutate(value = ifelse(x < y, value, NA)) %>% 
+  na.omit() %>% 
+  ggplot() + 
+  aes(y, x, fill = value) +
+  geom_tile(color = 'black') + 
+  facet_wrap('r', labeller = as_labeller(c('1' = 'Correlation', 
+                                           '2'= 'Partial correlation'))) + 
+  scale_fill_gradient(low = 'grey70', high = 'midnightblue',
+                      guide = guide_colorsteps()) + 
+  labs(x = NULL, y = NULL, fill = NULL) + 
+  theme_minimal() + 
+  scale_x_discrete(limits = rev) +
+  scale_y_discrete(limits = rev) +
+  theme(axis.text.x = element_text(angle = 45, hjust = .8))
+
+```

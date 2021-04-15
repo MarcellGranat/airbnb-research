@@ -1,0 +1,59 @@
+# Term frequency-inverse document frequency (TF-IDF) analysis {#Chapter-3}
+
+```{css, echo=FALSE}
+p {
+text-align: justify;
+  }
+```
+
+Text mining (also referred to as text analysis or text data mining) is the process of deriving information from unstructured text by transforming it into structured data to identify patterns. In order to quantify what a review comment is about, we used the term frequency-inverse document frequency analysis (hereinafter TF-IDF). TF-IDF is a technique that evaluates how relevant a word is to a document in a collection of documents (here: categories by user rating). In this study, we aimed to define the words (gained from user comment reviews) from which we can infer a conclusion, that whether an Airbnb property or room can be categorized into the upper decile group, the bottom decile group or the intermediate category (the dataset of Airbnb properties was divided into three sub-datasets: the upper and the bottom decile group of properties and a group of the rest of the data by overall ratings, which enabled us to perform text mining). The value of the upper and bottom decile is 4.99 and 4.5. To calculate a term’s TF-IDF, two metrics are multiplied: *term frequency* (how frequently a word appears in a document) and the term’s *inverse document frequency*, which is the frequency of the term (local frequency) adjusted for how rarely it appears in the collection of documents (global frequency). This decreases the weight of the commonly used words, and increases the weight of the words that are not frequent in a set of documents (Silge & Robinson, 2021. The inverse document frequency of a term is defined as:
+
+```{=tex}
+\begin{align}
+i d f(\text { term })=\ln \left(\frac{n_{\text {documents }}}{n_{\text {documents containing term }}}\right)
+\end{align}
+```
+
+If the word is very common and occurs in (almost) every document, this number will approach 0. Otherwise, it will approach 1. For instance, the word ‘refund’ is very frequent in the bottom decile, but nowhere else, so the number of its inverse document frequency approaches 1. This means, that this term has a higher relative frequency among Airbnb flats with lower user ratings. Thus, we marked it as a ‘negative’ word (Figure 10). The term ‘refund’ appeared to be the most related word to accommodations with relatively low ratings. More specifically, this indicates that service users were not completely satisfied with the flexibility of the host. The high relative frequency of the words ‘cancel’ and ‘compensation’ also suggests this. We found, that robberies were more frequent in the case of these properties. Terms ‘dust’, ‘mold’, ‘stains’, ‘leaking [roof, tap, boiler, etc.]’ and ‘bugs’ are more common where a lower rating was given, and suggest that – in some cases – the services did not suit the convenience of customers, and the cleanliness of the apartments was insufficient. Location-related safety issues were also reported by *Barbosa* (2019). It can be seen, that the relative frequency of names is extremely high among properties with high user ratings. This confirms our assumptions that there is a higher degree of intimacy between the hosts and service users concerning peer-to-peer accommodation. “The name carries a personal touch in this space” (Cheng, 2019). This is a factor that determines the confidence of the users and influences guest satisfaction to a great extent. Two examples for the appearance of the above-mentioned terms (‘robbery’ and ‘flexibility of the host’):
+
+```{r fig.cap='TF-IDF', fig.height=5}
+merge(dat_comments, dat_rbnb) %>% 
+  filter(language == 'english' & !is.na(assesment)) %>% 
+  tibble() %>% 
+  select(assesment, text) %>% 
+  mutate(
+    rating = as.numeric(Hmisc::cut2(assesment, g = 10, levels.mean = T)),
+    rating = case_when(
+      rating == min(rating) ~ 'Neg',
+      rating == max(rating) ~ 'Pos',
+      T ~ 'Middle'
+    ),
+  ) %>% 
+  select(rating, text) %>% 
+  unnest_tokens(words, text) %>% 
+  mutate(SnowballC::wordStem(words = words)) %>% 
+  group_by(rating, words) %>% 
+  summarise(n = n()) %>% 
+  ungroup() %>% 
+  bind_tf_idf(term = words, document = rating, n = n) %>% 
+  arrange(desc(tf_idf)) %>% 
+  filter(rating != 'Middle') %>% # TODO remove?
+  filter(n > 10 & !str_detect(words, '\\d') & words != 'pt') %>%
+  anti_join(rename(stop_words, words = word)) %>% 
+  group_by(rating) %>% 
+  group_modify(~ head(.x, 20)) %>% 
+  ungroup() %>% 
+  mutate(words = fct_reorder(words, tf_idf)) %>% 
+  ggplot() +
+  aes(tf_idf, words, fill = rating) +
+  geom_vline(xintercept = 0) +
+  geom_col(color = 'black', show.legend = F) + 
+  facet_wrap(~rating, scales = 'free_y') + 
+  labs(x = 'TF-IDF')
+
+```
+
+> “We were robbed in this Airbnb! Robbed of at least $2,500.00 worth of valuables; laptop, jewelry, camera, clothing all GONE. After this, we were made to sleep in the same apartment that was robbed that very day. […] The place itself is nice, clean and tidy. But the way that we were treated after going through something as awful as a robbery is despicable. Do not stay here.” (Airbnb ID: 18167202, average rating: 4.15)
+
+> “They accepted by booking late which meant I had then booked another Airbnb. I explained this and asked to cancel.. or just give me part refund.. neither of which happened.. Shame..” (Airbnb ID: 23819249, average rating: 4.15)
+

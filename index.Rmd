@@ -1,0 +1,92 @@
+---
+title: "An Analysis of Customer Reviews of the Airbnb online platform"
+author: "Marcell P. Granát & Zója M. Szabó"
+output: bookdown::gitbook
+site: bookdown::bookdown_site
+favicon: "logo.ico"
+---
+
+# Preface
+
+```{r setup, include=FALSE, warning=F}
+knitr::opts_chunk$set(echo = F, comment = "", warning = F, message = F, cache = F, dev = "svg", error = T, fig.align = 'center', fig.width = 7)
+```
+
+```{r}
+knitr::include_graphics('corvinustdk.png')
+```
+
+
+***
+
+Consultant: Izabella Gyürüsi
+
+***
+
+
+```{r packages}
+# Packages ------------------------------------------------------------------------------ 
+
+library(tidyverse)
+library(knitr)
+library(tidytext)
+library(rvest)
+library(parallel)
+library(RSelenium)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(topicmodels)
+library(stm)
+library(quanteda)
+library(tidytext)
+library(vip)
+library(tidymodels)
+library(textrecipes)
+
+```
+
+```{r data}
+load('dat_rbnb.RData')
+load("lasso_model.RData") # avoid extreme computation time of the model in Ch 4
+load("booking_prices.RData")
+
+```
+
+```{r theme}
+## Gg theme =============================================================================
+
+update_geom_defaults("point", list(color="#69b3a2", alpha=0.8))
+
+update_geom_defaults("line", 
+                     list(color = "midnightblue", size = 1.4))
+
+update_geom_defaults("smooth", list(color = "red4", size = 1.4))
+
+update_geom_defaults("density", 
+                     list(color = "midnightblue", fill =  "midnightblue",
+                          alpha = .3, size = 1.4))
+
+extrafont::loadfonts(device="win")
+
+theme_set(theme_minimal() + theme(
+  legend.direction = "vertical",
+  plot.caption = element_text(family = "serif")
+))
+
+```
+
+```{css, echo=FALSE}
+p {
+text-align: justify;
+}
+.author {
+  font-size: 20px;
+  text-align: center;
+  color: #4a4a4a
+} 
+.title {
+  text-align: center;
+}
+```
+
+Public perception of shared goods and/or services has changed significantly in the last few years. Shared accommodations have gained so great popularity, that house and flat sharing platforms like Airbnb now rival some of the world’s largest businesses in hospitality. Sharing of personal properties provides an opportunity for owners to lower the transaction costs of operating short-term rentals and online rental marketplaces connect people who want to rent out their dwellings with the ones who are looking for accommodations. This study is aimed at determining the perceived behavior of individuals choosing Airbnb and exploring the factors that influence user ratings and consumer adoption of Airbnb while assuming that customer feedbacks contribute significantly to consumer choice. We also analyze the market trends of the Hungarian Airbnb accommodations as primary examples of sharing or collaborative economy. Weekly data was collected for the Hungarian accommodation establishments all over the country. We aimed to build a complete dataset of the active suppliers by using automated “web scraping” techniques during a certain window of time. Our database contained customer ratings, reviews and pieces of public information concerning the rooms. We performed a TF-IDF analysis and a Lasso-based feature selection on the aforementioned variables. Our key findings were that four attributes form the vast majority of online review comments. These are ‘amenities’, ‘host’, ‘location’ and ‘cleanliness'. Contrary to our expectations, ‘price’ was not identified as a key determinant of customer satisfaction. A positivity bias can be detected in Airbnb users’ comments (this means an overwhelmingly large number of positive comments), and a higher degree of intimacy between users and hosts than in the case of traditional hotels. Negative feedback is usually related to ‘location’ (safety issues), ‘noise’ and bad quality of ‘amenities’.
