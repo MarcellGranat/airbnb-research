@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Introduction | An Analysis of Customer Reviews of the Airbnb online platform</title>
+  <meta name="description" content="Introduction | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Introduction | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Introduction | An Analysis of Customer Reviews of the Airbnb online platform" />
+  
+  
+  
+
+<meta name="author" content="Marcell P. Granát &amp; Zója M. Szabó" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+<link rel="prev" href="index.html"/>
+<link rel="next" href="Chapter-2.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="logo.png" width="300" height="300">
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="Chapter-1.html"><a href="Chapter-1.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html"><i class="fa fa-check"></i>Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#data-collection"><i class="fa fa-check"></i>Data collection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#descriptive-statistics"><i class="fa fa-check"></i>Descriptive statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Chapter-3.html"><a href="Chapter-3.html"><i class="fa fa-check"></i>Term frequency-inverse document frequency (TF-IDF) analysis</a></li>
+<li class="chapter" data-level="" data-path="Chapter-4.html"><a href="Chapter-4.html"><i class="fa fa-check"></i>Lasso-based feature selection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html"><i class="fa fa-check"></i>Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html#literature"><i class="fa fa-check"></i>Literature</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Customer Reviews of the Airbnb online platform</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Chapter-1" class="section level1">
+<h1>Introduction</h1>
+<style type="text/css">
+p {
+  text-align: justify;
+}
+</style>
+<p>The phenomenon of collaborative consumption including peer-to-peer (P2P) accommodations has gained great popularity over the past decade. To understand what P2P accommodation means, we first define sharing or collaborative economy (the term ‘collaborative economy’ is interchangeably used with the term ‘sharing economy’). The term ‘collaborative economy’ – as the Commission refers to it – “is business models where activities are facilitated by online platforms that create an open market place for the temporary user of goods or services often provided by private individuals” (COM, 2016, 356 final, page 3). Peer-to-peer accommodation occurs when two individuals (service providers and the users of these services) transact business without an intermediary third party.</p>
+<p>Several factors drive the use of shared accommodations. Sharing of personal properties provides an opportunity for owners to (1) <em>lower</em> the <em>transaction costs</em> of operating short-term rentals (and this allows travelers to consider destinations and tourism activities that are otherwise of a prohibitive cost (Tussyadiah &amp; Pesonen, 2015)). Online rental marketplaces (2) establish a <em>direct connection between people</em> who want to rent out their dwellings with the ones looking for accommodations. The (3) <em>availability of traditional experiences</em> – allowing travelers to “live like a local” – also has an impact on consumer decisions (Bridges &amp; Vásquez, 2016). Another significant factor is (4) <em>social acceptance</em>: “sharing economies, ones such as accommodations, are a more sustainable alternative to traditional travel lodging through the consumption of less energy and resources, the production of less waste, and the overall theme of sustainability that is portrayed through many hosts and users of the service” (Midgett et al., 2018). Further key drivers explaining the growth in the use of Airbnb are “positive word of mouth”, “digital infrastructure and literacy of the population” and “vocal support from the government” (PwC, 2016).</p>
+<p>As a result of the factors mentioned above, house and flat sharing platforms like Airbnb now rival some of the world’s largest businesses in hospitality. Since the founding of Airbnb in 2008, more than 800 million<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a> guests have checked in at Airbnb listings around the world – and the number of guest arrivals is still growing rapidly.</p>
+<p>Figure 1 presents the proportion of online bookings of the main types of tourist accommodation by country and partner type. Approximately 25 percent of partners – domestic and outbound together – book accommodation online in Hungary. This supports our expectation that there is a significant number of Airbnb users in the country. “A related study by PwC shows that while in 2013 the sharing economy companies […] where the new business model is the most prevalent earned sales revenue of 15 billion dollars, by 2025 this will have risen to 335 billion dollars, so half of the revenues in these markets will go to companies with a sharing-based model” (PwC, 2015).</p>
+<div class="figure" style="text-align: center"><span id="fig:eurostat"></span>
+<img src="my-book_files/figure-html/eurostat-1.svg" alt="Proportion of internet bookings of the main means of accommodation by countries and the partner type" width="672" />
+<p class="caption">
+Figure 1: Proportion of internet bookings of the main means of accommodation by countries and the partner type
+</p>
+</div>
+<p>The main objective of this study is <em>to determine the perceived behavior of individuals choosing Airbnb accommodations through the analysis of online reviews and investigate the attributes that influence user ratings and reviews on the aforementioned collaborative platform</em>. In this paper, we examine the entire territory of Hungary.</p>
+<p>Accordingly, our research question is the following: <em>What are the key factors that influence customer satisfaction concerning the Airbnb flats in Hungary?</em> To give a detailed answer, we analyzed online review comments gained from the Hungarian Airbnb website by using web scraping techniques. Big data analytics with over 75,000 observations (customer feedbacks) enabled us to better understand customer preferences, behavior and sentiment. Machine learning analysis was performed to extract all the above-mentioned information. We used two main text analysis tools: TF-IDF (term frequency-inverse document frequency) analysis – which was also supported by the closely related literature (Barbosa, 2019; Cheng, 2019; Zhang &amp; Fu, 2020) – and the lasso regression model. By using these tools, <em>Cheng</em> (2019) identified that customers’ experience with Airbnb and traditional hotels have some points in common, and as a result, users often evaluate their experience with Airbnb stays based on their experience with traditional hotels. The author detected three factors (‘location’, ‘amenities’ and ‘host’) that contribute significantly to customer satisfaction. Contrary to expectations, ‘price’ was not statistically significant when investigating its impact on user ratings, which confirms our findings. <em>Cheng</em> also found that Airbnb users tend to use the names of the hosts in their reviews, which led the author to the conclusion that a higher degree of intimacy between hosts and costumers can be observed – we came to the same conclusion. According to <em>Zervas</em> (2015, p. 12), there is empirical evidence that user ratings on the Airbnb platform are „dramatically high”. Our results also support this statement: we found that 60 percent of the observations (properties) have a user rating of 4.75 or above.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-4"></span>
+<img src="flowchart.svg" alt="Main steps of the study"  />
+<p class="caption">
+Figure 2: Main steps of the study
+</p>
+</div>
+<p>Since the phenomenon of Airbnb is quite new, only a small amount of research has been done about the preferences and motivation of its users. This study contributes to a broader understanding of the experiences and preferences of Airbnb users in Hungary, while extends the scientific discourse in many directions by exploring research gaps. Methodologically, it contributes to the existing literature by providing an accurate and up-to-date database (created by using web scraping techniques in R software), which contains data about Airbnb users all over Hungary. The database is available in a public GitHub repository<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+
+</div>
+<div class="footnotes">
+<hr />
+<ol start="1">
+<li id="fn1"><p> <a href="https://news.airbnb.com/about-us/" class="uri">https://news.airbnb.com/about-us/</a><a href="Chapter-1.html#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p> <a href="https://github.com/MarcellGranat/airbnb-research" class="uri">https://github.com/MarcellGranat/airbnb-research</a><a href="Chapter-1.html#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Chapter-2.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MarcellGranat/airbnb-research/blob/main/Chapter-1.Rmd",
+"text": "Jump to GitHub"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

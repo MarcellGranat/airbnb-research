@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Conclusion | An Analysis of Customer Reviews of the Airbnb online platform</title>
+  <meta name="description" content="Conclusion | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Conclusion | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Conclusion | An Analysis of Customer Reviews of the Airbnb online platform" />
+  
+  
+  
+
+<meta name="author" content="Marcell P. Granát &amp; Zója M. Szabó" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+<link rel="prev" href="Chapter-4.html"/>
+
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="logo.png" width="300" height="300">
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="Chapter-1.html"><a href="Chapter-1.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html"><i class="fa fa-check"></i>Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#data-collection"><i class="fa fa-check"></i>Data collection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#descriptive-statistics"><i class="fa fa-check"></i>Descriptive statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Chapter-3.html"><a href="Chapter-3.html"><i class="fa fa-check"></i>Term frequency-inverse document frequency (TF-IDF) analysis</a></li>
+<li class="chapter" data-level="" data-path="Chapter-4.html"><a href="Chapter-4.html"><i class="fa fa-check"></i>Lasso-based feature selection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html"><i class="fa fa-check"></i>Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html#literature"><i class="fa fa-check"></i>Literature</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Customer Reviews of the Airbnb online platform</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Chapter-5" class="section level1">
+<h1>Conclusion</h1>
+<style type="text/css">
+p {
+  text-align: justify;
+}
+</style>
+<p>In this paper, we aimed to understand what factors drive the use of shared accommodations and what are the key influencers of customer satisfaction concerning the tourist accommodation service provided by Airbnb all over Hungary. We obtained data from the Airbnb website by using web scraping techniques and examined these through text analysis. Two main statistical tools were used to quantify and visualize Airbnb users’ online review comments: the TF-IDF (term frequency-inverse term frequency) analysis and Lasso-based feature selection (lasso regression) – both by using R software. To investigate customer satisfaction and its key influencers, we chose to analyze user ratings and reviews comments. Our study has provided empirical evidence for several factors, that play an important role in evaluating customer experiences. Most of them corresponded with the ones suggested by the extant literature. In some cases, different statistical models provided different – a couple of times contradictory – results. In the following, we report the results of descriptive statistics.</p>
+<p>A positivity bias was identified towards the hosts in the comment reviews: the vast majority of the apartments had a user rating of 4.75 or above. The related literature also supports our finding that user ratings tend to be unambiguously positive. This phenomenon can be explained with two types of bias: (1) purchasing bias – only consumers with a favorable disposition towards a service purchase the service, and (2) under-reporting bias – consumers with polarized reviews are more likely to report their reviews (Hu et al., 2009).
+We found that there is a considerable number of fake reviews (written by the host themselves or friends), because the probability that the number of reviews takes on a value less or equal to a given number is higher, if user ratings are outstandingly high.</p>
+<p>Surprisingly, ‘accuracy’ (the timing of the experience, the name of the host, the location, a list of what is provided, and what guests will do) was not identified as a key determinant of user ratings. According to these, we concluded that a hosts’ ‘trustworthiness’ is not as important as collaborative consumption suggests. Although ‘location’ was considered a highly valued aspect by some of the other papers, we found that it is not highly related with overall user ratings. ‘Cleanliness’, however, seemed to play a significant role in customer satisfaction.</p>
+<p>In the TF-IDF part, we derived information from customer reviews by transforming them into structured data. TF-IDF analysis is a technique that evaluates how relevant a word is to a document across a set of documents. We aimed to categorize words from review comments into the upper decile group, the bottom decile group or the intermediate category by overall user ratings.</p>
+<p>We found that service users were <em>not completely satisfied</em> with the ‘flexibility of the host’ concerning low-rated flats by identifying keywords such as ‘compensation’ and ‘cancel’ in the reviews. ‘Robberies’ were also mentioned several times in the case of these properties. Terms related to amenities and cleanliness also appeared in a negative aspect.</p>
+<p>The research revealed that the relative frequency of names is extremely high among properties with high user ratings. This confirmed our assumptions that the Airbnb platform establishes a direct and more intimate relationship between host and user. In conclusion, ‘host’ as an attribute <em>positively influences</em> guest satisfaction to a great extent.</p>
+<p>In the Lasso-based feature selection part, we performed a lasso regression-based classification of the words. Words were classified into three categories: positive words (flats with a user rating equal to or above 4.9), negative words (flats which were given 4.5 stars or below) and neutral words. This method was very similar to the one used in the TF-IDF part.</p>
+<p>Based on this model, ‘location’ and ‘amenities’ are the attributes, that stood out mostly among review comments, contributing to guest satisfaction in an <em>unfavorable way</em>. Although ‘price’ has not been defined as a key determinant of overall user ratings by previous tools, this model ranked it very high in determining (<em>negative</em>) customer experience. However, it is not directly ‘price’, but ‘value-for-money’ is the term commonly used.</p>
+<p>Factors that contribute <em>favorably</em> to user satisfaction are ‘equipped’ and ‘furnished [apartments]’ (with many amenities), which appeared as people’s top priority. ‘Location’ was also a significant factor. The high presence of positive opinions about location in the comments gave evidence that it highly determines users’ overall satisfaction. ‘Hosts’ also play an important role in evaluating customer experiences. Although ‘price’ has not been defined as a key determinant of overall user ratings by the previous tools, this model ranked it very high in determining (negative) customer experience. The reason for this is that the word ‘price’ in customer reviews refers to ‘value-for-money’ numerous times.</p>
+<p>We also illustrated the graph of bigrams related to the lasso regression model results. The words displayed were classified into three categories based on the method presented in the previous model. This tool is useful when a term by itself does not provide meaningful information, yet appears because it represents the information of the other word connected.
+In conclusion, the answer to our research question that “<em>what are the key factors that influence customer satisfaction concerning the Airbnb flats in Hungary?</em>” is the following: the research identified four main attributes, that form the majority of online review comments on the Hungarian Airbnb website. These are ‘amenities’, ‘host’, ‘location’ and ‘cleanliness’.</p>
+<p>By investigating the nature of customer review comments, we acquire a deeper understanding of customer preferences. Our findings can be used for researching other segments of collaborative consumption and the future of short-term rentals such as Airbnb. The results obtained in this paper can serve as benchmark data in further research, while enabling us to look at time trends.</p>
+<div id="literature" class="section level2">
+<h2>Literature</h2>
+<ul>
+<li>[A Europan Agenda for the collaborative economy, 2016] A Europan Agenda for the collaborative economy (2016). : A europan agenda for the collaborative economy.</li>
+<li>[Barbosa, 2019] Barbosa, S. R. P. (2019). <em>Airbnb customer satisfaction through online reviews.</em> PhD thesis.</li>
+<li>[Bridges and Vásquez, 2018] Bridges, J. and Vásquez, C. (2018). If nearly all airbnb reviews are positive, does that make them meaningless? <em>Current Issues in Tourism</em>, 21(18):2057–2075.</li>
+<li>[Cheng and Jin, 2019] Cheng, M. and Jin, X. (2019). What do airbnb users care about? an analysis of online review comments. <em>International Journal of Hospitality Management</em>, 76:58–70.</li>
+<li>[Ert et al., 2016] Ert, E., Fleischer, A., and Magen, N. (2016). Trust and reputation in the sharing economy: The role of personal photos in airbnb. <em>Tourism management</em>, 55:62–73.</li>
+<li>[Feinerer et al., 2013] Feinerer, I., Buchta, C., Geiger, W., Rauch, J., Mair, P., and Hornik, K. (2013). The textcat package for n-gram based text categorization in r. <em>Journal of statistical software</em>, 52(6):1–17.</li>
+<li>[Guttentag and Smith, 2017] Guttentag, D. A. and Smith, S. L. (2017). Assessing airbnb as a disruptive innovation relative to hotels: Substitution and comparative performance expectations. <em>International Journal of Hospitality Management</em>, 64:1–10.</li>
+<li>[Hu et al., 2009] Hu, N., Pavlou, P. A., and Zhang, J. J. (2009). Why do online product reviews have a j-shaped distribution? overcoming biases in online word-of-mouth communication. <em>Communications of the ACM</em>, 52(10):144–147.</li>
+<li>[Lee et al., 2019] Lee, C. K. H., Tse, Y. K., Zhang, M., and Ma, J. (2019). Analysing online reviews to investigate customer behaviour in the sharing economy: The case of airbnb. Information Technology &amp; People.</li>
+<li>[Midgett et al., 2018] Midgett, C., Bendickson, J. S., Muldoon, J., and Solomon, S. J. (2018). The sharing economy and sustainability: A case for airbnb. Small Business Institute Journal, 13(2):51–71.</li>
+<li>[PWC, 2016] PWC (2016). <em>Sharing or paring?</em></li>
+<li>[PwC, 2016] PwC, U. (2016). Assessing the size and presence of the collaborative economy in europe. <em>Report Delivered to EC.</em></li>
+<li>[Silge and Robinson, 2017] Silge, J. and Robinson, D. (2017). <em>Text mining with R: A tidy approach.</em> O’Reilly Media, Sebastopol, CA.</li>
+<li>[Tussyadiah and Pesonen, 2016] Tussyadiah, I. P. and Pesonen, J. (2016). Impacts of peer-to-peer accommodation use on travel patterns. <em>Journal of Travel Research</em>, 55(8):1022–1040.</li>
+<li>[Valant, 2015] Valant, J. (2015). <em>Consumer protection in the EU. Policy overview.</em></li>
+<li>[Zervas et al., 2017] Zervas, G., Proserpio, D., and Byers, J. W. (2017). The rise of the sharing economy: Estimating the impact of airbnb on the hotel industry. <em>Journal of Marketing Research</em>, 54(5):687–705.</li>
+<li>[Zervas et al., 2020] Zervas, G., Proserpio, D., and Byers, J. W. (2020). A first look at online reputation on airbnb, where every stay is above average. <em>Marketing Letters</em>, pages 1–16.</li>
+<li>[Zhang and Fu, 2020] Zhang, Z. and Fu, R. J. (2020). Accommodation experience in the sharing economy:</li>
+<li>A comparative study of airbnb online reviews. <em>Sustainability</em>, 12(24):10500.</li>
+</ul>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Chapter-4.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MarcellGranat/airbnb-research/blob/main/Chapter-5.Rmd",
+"text": "Jump to GitHub"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

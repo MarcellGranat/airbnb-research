@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Lasso-based feature selection | An Analysis of Customer Reviews of the Airbnb online platform</title>
+  <meta name="description" content="Lasso-based feature selection | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Lasso-based feature selection | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Lasso-based feature selection | An Analysis of Customer Reviews of the Airbnb online platform" />
+  
+  
+  
+
+<meta name="author" content="Marcell P. Granát &amp; Zója M. Szabó" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+<link rel="prev" href="Chapter-3.html"/>
+<link rel="next" href="Chapter-5.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="logo.png" width="300" height="300">
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="Chapter-1.html"><a href="Chapter-1.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html"><i class="fa fa-check"></i>Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#data-collection"><i class="fa fa-check"></i>Data collection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#descriptive-statistics"><i class="fa fa-check"></i>Descriptive statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Chapter-3.html"><a href="Chapter-3.html"><i class="fa fa-check"></i>Term frequency-inverse document frequency (TF-IDF) analysis</a></li>
+<li class="chapter" data-level="" data-path="Chapter-4.html"><a href="Chapter-4.html"><i class="fa fa-check"></i>Lasso-based feature selection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html"><i class="fa fa-check"></i>Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html#literature"><i class="fa fa-check"></i>Literature</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Customer Reviews of the Airbnb online platform</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Chapter-4" class="section level1">
+<h1>Lasso-based feature selection</h1>
+<style type="text/css">
+p {
+  text-align: justify;
+}
+</style>
+<p>The TF-IDF analysis is a great tool to detect whether a word is more frequent among comments related to higher or lower-rated accommodations, but there are some drawbacks as well. The algorithm fails to leave out words that have a high TF-IDF, even though the global frequency of the word is extremely low. For instance, the word ‘robbery’ only appeared in the comments of low-rated Airbnb flats (so its relative frequency is high), but because of its absolute frequency, it could not be used for predicting user ratings.
+Another issue raised with the use of the TF-IDF analysis when the words related to lower-rated flats correlated with each other. For example, ‘horrible’ and ‘cancel’ appeared in the same comments:</p>
+<blockquote>
+<p>“I made a reservation. The host didn’t write me, he didn’t respond. After I have called them, they told me they didn’t see the reservation. That the system is broken, and they couldn’t see my reservation. I had to cancel it before arriving and had to look for another accommodation at 9 pm! Horrible” (Airbnb ID: 37383207, average rating: 3.5).</p>
+</blockquote>
+<p>To handle correlation between words, and find the truly useful ones for prediction, we performed a lasso regression-based classification of the words.</p>
+<p>The method of categorizing comments as “positive” and “negative” is equivalent to the one presented in the previous section. If a flat has a rating equal to or above the upper decile, it is positive, and negative if it is equal to or below the bottom decile. The difference compared to the previous model is that the intermediatory category has been omitted. The reason for that is the classifier is a logistic regression, which only predicts binary outputs.</p>
+<p>For this, the key idea is to generate random samples from the population of the reviews, and divide them into training and testing sets. Logistic lasso regression determines the coefficient of each word, and categorizes the comment reviews as “negative” or “positive”. Its performance (so that if the frequency of a term provides a good prediction of a review’s positive or negative nature) is validated on the test set. After committing this multiple times, we measure the contribution of a term to the reduction of prediction error (variable importance). The most important terms are reported in Figure 11. We created 25 repetitions, and the samples contained about 9000 reviews as a training set and 3000 as a test set.</p>
+<p>This model framework outperforms simple TF-IDF-based categorization. (1) If the relative frequency of a term differs in the case of high-rated and low-rated properties’ comments, but its total frequency is low, the word will not show significant contribution to the categorization of a text (here review comments). (2) If a combination of two words frequently occurs together, the logistic lasso regression model will omit the variable which does not contain new information.</p>
+<p>This attribute is one of the main disadvantages of the model, since the more meaningful word may be excluded. For example, the word ‘bit’ by itself does not provide much information, yet appears because it represents the information that the Airbnb flat is located in a “bit noisy” surroundings.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-20"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-20-1.svg" alt="Most important positive and negative words based on lasso selection" width="672" />
+<p class="caption">
+Figure 11: Most important positive and negative words based on lasso selection
+</p>
+</div>
+<p>As Figure 11 shows, the flat’s location and amenities are the attributes, that most stand out among review comments, contributing to guest satisfaction in an unfavorable way. The literature studied also supports these findings (Barbosa, 2019). Words related to amenities such as ‘toilet’, ‘broken [equipment]’, ‘bathroom’, ‘windows’, ‘towels’ and ‘wifi’ mostly appeared in reviews that belonged to properties with ratings of 4.9 stars (upper decile) or above. According to <em>Lee et al.</em> (2019), a bad Wi-Fi connection in an Airbnb flat can ruin the entire customer experience. We, as humans tend to value things only after we have lost is – this is also the case with internet connection. Earlier in this paper, ‘price’ has not been defined as a key determinant of overall user ratings, but in this model, it is ranked very high. The reason for this is that the word ‘price’ in customer reviews refers to ‘value-for-money’ numerous times. We also examined which factors contribute favorably to user satisfaction. ‘Equipped’ and ‘furnished [apartments]’ appeared as people’s top priority. ‘Location’ was also a significant factor. We removed some of the adverbs and adjectives like “beautifully” and “amazing” associated with the location, which enabled us to gain concrete information. However, the presence of positive opinions concerning location in the comments gave evidence that it highly determines users’ positive experience. <em>Barbosa</em> (2019) said that several people participate in peer-to-peer accommodation with their families (high frequency of words ‘family’ and ‘husband’). They rent whole houses with many amenities (‘equipped’, ‘furnished’ apartments), so they have an opportunity to ‘relax’, while enjoying the ‘view’ and sipping ‘wine’ in the ‘garden’. Others were provided with destination ‘tips’ by the locals, and were more interested in obtaining traditional experience. ‘Hosts’ also play an important role in evaluating customer experiences.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-21"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-21-1.svg" alt="Graph of bigramms related to the model results" width="768" />
+<p class="caption">
+Figure 12: Graph of bigramms related to the model results
+</p>
+</div>
+<p>Figure 12 illustrates the graph of bigrams related to the lasso regression model results. The words presented were classified into three categories: positive words (belonging to the flats with a user rating equal to or above 4.9), negative words (belonging to the flats which were given 4.5 stars or below) and neutral words. For example, the word ‘bit’, which also appeared in Figure 11, now became interpretable: in some cases, Airbnb users found the environment a “bit noisy”. It is confirmed by Cheng (2019), that negative sentiment is mostly caused by ‘noise’. Another example is the word ‘ruin’, which is also coupled with low user ratings, makes no sense by itself. However, supplemented by the word ‘bars’ or ‘pubs’, it is easily understood. From this comment review below, we can see that apartments located near nightclubs are more likely to get negative feedback:</p>
+<blockquote>
+<p>“There’s a nightclub on the first floor with an open sky, you can hear the music all night long as the windows aren’t noised canceling… not something we were expecting at all… Otherwise, the location is great, the breakfast is a bit expensive for what they serve but it’s unlimited… If you plan to party all night long it’s a good place, otherwise, be prepared to have trouble sleeping.”</p>
+</blockquote>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Chapter-3.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Chapter-5.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MarcellGranat/airbnb-research/blob/main/Chapter-4.Rmd",
+"text": "Jump to GitHub"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

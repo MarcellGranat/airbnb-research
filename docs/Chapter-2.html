@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Data | An Analysis of Customer Reviews of the Airbnb online platform</title>
+  <meta name="description" content="Data | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Data | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Data | An Analysis of Customer Reviews of the Airbnb online platform" />
+  
+  
+  
+
+<meta name="author" content="Marcell P. Granát &amp; Zója M. Szabó" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+<link rel="prev" href="Chapter-1.html"/>
+<link rel="next" href="Chapter-3.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="logo.png" width="300" height="300">
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="Chapter-1.html"><a href="Chapter-1.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html"><i class="fa fa-check"></i>Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#data-collection"><i class="fa fa-check"></i>Data collection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#descriptive-statistics"><i class="fa fa-check"></i>Descriptive statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Chapter-3.html"><a href="Chapter-3.html"><i class="fa fa-check"></i>Term frequency-inverse document frequency (TF-IDF) analysis</a></li>
+<li class="chapter" data-level="" data-path="Chapter-4.html"><a href="Chapter-4.html"><i class="fa fa-check"></i>Lasso-based feature selection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html"><i class="fa fa-check"></i>Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html#literature"><i class="fa fa-check"></i>Literature</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Customer Reviews of the Airbnb online platform</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Chapter-2" class="section level1">
+<h1>Data</h1>
+<style type="text/css">
+p {
+  text-align: justify;
+}
+</style>
+<div id="data-collection" class="section level2">
+<h2>Data collection</h2>
+<p>Our research is based on the customer reviews available on the Hungarian Airbnb website. We chose to examine the high season<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a> – the time interval between May 31 and August 29 – which enabled us to investigate the entire population of Airbnb users in Hungary during the summer. Airbnb’s search engine has three characteristics that are important to mention: (1) it lists properties within a given radius, (2) there is a necessity of using an iterative price filter to find every apartment in a settlement, and (3) it provides a limited availability of comments (about a maximum of 40 per property). These will be discussed later in this study.</p>
+<p>We collected information about over 8,700 Airbnb properties listed in Hungary (downloaded on March 5, 2021). For each property, the database we generated contained the property’s unique id, its URL address, the type of place (entire place, private room, shared room), the name of the host, an approximate location (Airbnb does not provide an accurate location for listings before booking), price, the number of reviews, star ratings (for the overall experience and for specific categories including cleanliness, accuracy, communication, location, check-in, and value-for-money), a description and customer reviews. We aimed to collect data about the whole territory of Hungary, which enabled us to detect territorial typologies concerning travelers’ accommodation preferences and identify as many patterns in the data as possible.</p>
+<p>The first step in the data collection process was creating a list of the potential settlements in Hungary. The list included the 50 largest settlements in Hungary by population<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a> supplemented by the most visited settlements in Hungary<a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>. The reason why we combined the aforementioned datasets is that we aimed to cover all regions of Hungary, which – in some cases – meant that we added settlements manually to the list in order to fill the gaps on the map. As a result, we got a list of 115 settlements (Figure 3). As previously mentioned, there was a necessity to use an iterative price filter in order to find every Airbnb flat in a settlement. We faced this difficulty in the case of locations with more than 300 listings, because Airbnb only displays 300 listings at a time. If a price filter had not been used, the rest of the listings would have been omitted from the results. To avoid this, we introduced a price filter. The search results now presented only the listings that were within the chosen range of price, which reduced search results.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-6"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-6-1.svg" alt="Starting points of our scraping algorithm" width="672" />
+<p class="caption">
+Figure 3: Starting points of our scraping algorithm
+</p>
+</div>
+<p>As a second step, we collected information from the Airbnb website by searching for properties in every settlement we listed previously. Airbnb’s search algorithm provides listings within a certain radius from the center of the search. Although we had to remove duplicates and the properties that are not located in Hungary, we could easily detect and add a large number of new cities and villages to the list, which now consisted of 575 settlements all over the country, 8700 apartments (rooms) and over 78,000 review comments.</p>
+<table>
+<caption><span id="tab:unnamed-chunk-7">Table 1: </span>Number of avaiable accomodations by counties on the Airbnb website</caption>
+<thead>
+<tr class="header">
+<th align="left">County</th>
+<th align="center">Number of settlements</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Bács-Kiskun</td>
+<td align="center">84</td>
+</tr>
+<tr class="even">
+<td align="left">Baranya</td>
+<td align="center">74</td>
+</tr>
+<tr class="odd">
+<td align="left">Békés</td>
+<td align="center">69</td>
+</tr>
+<tr class="even">
+<td align="left">Borsod-Abaúj-Zemplén</td>
+<td align="center">210</td>
+</tr>
+<tr class="odd">
+<td align="left">Budapest</td>
+<td align="center">5104</td>
+</tr>
+<tr class="even">
+<td align="left">Csongrád</td>
+<td align="center">222</td>
+</tr>
+<tr class="odd">
+<td align="left">Fejér</td>
+<td align="center">108</td>
+</tr>
+<tr class="even">
+<td align="left">Győr-Moson-Sopron</td>
+<td align="center">150</td>
+</tr>
+<tr class="odd">
+<td align="left">Hajdú-Bihar</td>
+<td align="center">239</td>
+</tr>
+<tr class="even">
+<td align="left">Heves</td>
+<td align="center">314</td>
+</tr>
+<tr class="odd">
+<td align="left">Jász-Nagykun-Szolnok</td>
+<td align="center">59</td>
+</tr>
+<tr class="even">
+<td align="left">Komárom-Esztergom</td>
+<td align="center">38</td>
+</tr>
+<tr class="odd">
+<td align="left">Nógrád</td>
+<td align="center">46</td>
+</tr>
+<tr class="even">
+<td align="left">Pest</td>
+<td align="center">239</td>
+</tr>
+<tr class="odd">
+<td align="left">Somogy</td>
+<td align="center">537</td>
+</tr>
+<tr class="even">
+<td align="left">Szabolcs-Szatmár-Bereg</td>
+<td align="center">41</td>
+</tr>
+<tr class="odd">
+<td align="left">Tolna</td>
+<td align="center">33</td>
+</tr>
+<tr class="even">
+<td align="left">Vas</td>
+<td align="center">149</td>
+</tr>
+<tr class="odd">
+<td align="left">Veszprém</td>
+<td align="center">525</td>
+</tr>
+<tr class="even">
+<td align="left">Zala</td>
+<td align="center">455</td>
+</tr>
+</tbody>
+</table>
+<p>Table 1 displays the distribution of Airbnb flats (rooms) in Hungary by county. It can be seen, that more than 5000 properties are located in Budapest. Although most of the English comments belong to the properties located in the capital, the large proportion of these accommodations in the population greatly determines the overall distribution of the language of comments (Figure 4). A higher ratio of Hungarian comments in other counties indicates that domestic tourism is more significant in these regions – according to data published by the <em>Hungarian Central Statistical Office</em> (2019) the number of domestic tourism nights spent in commercial accommodation is higher in the case of properties in the most popular rural destinations such as Hajdúszoboszló and settlements near Lake Balaton.</p>
+<p>To identify the language in which a review was written, we used text categorization based on character n-gram frequencies. This function is included in an R extension package (<em>textcat</em>) which is used “for natural language processing, in particular by providing the infrastructure for general statistical analyses of frequency distributions of (character or byte) n-grams” (Mair, 2013). A drawback of the algorithm is that since it searches for word combinations, it systematically misidentifies the language of comments that contain only a few words (e. g. “perfect”), which are relatively frequent – based on the existing literature (Cheng, 2019 p. 62, Fig. 2). To avoid this, we assigned them to the appropriate language manually. In this study, we only focus on the comments written in English, since their proportion is extremely high – as mentioned previously.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-8"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-8-1.svg" alt="Most common languages found in the comments by counties" width="672" />
+<p class="caption">
+Figure 4: Most common languages found in the comments by counties
+</p>
+</div>
+<p>After removing the properties with no reviews, our database contained approximately 6000 apartments (rooms) and a total of about 65,000 review comments after removing the ones written in languages other than English. By using Big Data (a large sample size), we were able to decrease the likelihood of committing a type II error, which thus increases the power of the study. However, only a limited number of comments (about a maximum of 40 per property, depending on the number of characters used) is visible on the Airbnb website.</p>
+</div>
+<div id="descriptive-statistics" class="section level2">
+<h2>Descriptive statistics</h2>
+<p>Although we did not examine the direct impact of Airbnb on hotels and the hospitality industry in this paper, we aimed to compare the distribution of prices per night concerning Airbnb flats and traditional hotels (shown in Figure 5). For this, we collected information about over 16,000 hotels from Booking.com by using web scraping techniques. The distribution of prices for Airbnb properties and traditional hotels has a large kurtosis, which means that there are high probabilities of extremely high and extremely low prices in both cases. The empirical density function indicates a median of 79 dollars for Airbnb and 85 dollars for hotels, and a mean of 130 dollars for Airbnb, and 126 dollars for hotels. In conclusion, even though the top motivation of tourists to choose Airbnb is its comparatively low cost (Guttentag, 2017), we found that the distribution of prices is very similar in the case of the two types of accommodation.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-9"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-9-1.svg" alt="Comparison of prices per night: Airbnb and Booking.com" width="672" />
+<p class="caption">
+Figure 5: Comparison of prices per night: Airbnb and Booking.com
+</p>
+</div>
+<p>Figure 6 shows the number of Airbnb accommodations per capita by territorial units. It can be seen, that the relative number of those properties located in the immediate vicinity of Lake Balaton is very high. According to data published by the <em>Hungarian Central Statistical Office</em> (2021), among the first 100 most-visited settlements concerning domestic tourism nights in 2020, there were 25 located near Lake Balaton.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-11"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-11-1.svg" alt="Number of Airbnb accomodations per capita by territorial units" width="672" />
+<p class="caption">
+Figure 6: Number of Airbnb accomodations per capita by territorial units
+</p>
+</div>
+<p>Figure 7 illustrates the relationship between price and user ratings. A slope of zero means that the value of user rating is constant no matter the value of price. Knowing the price of the apartment does not reduce the uncertainty associated with user ratings. <em>Cheng</em> (2019) also found, that “price was not treated as important as other attributes when evaluating Airbnb experiences” (Cheng, 2019 p. 61). This was predictable, since – in contrast to other factors determining customer satisfaction such as cleanliness (as discussed later), – the exact value of the price is already known to the customer before using the service.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-12"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-12-1.svg" alt="Scatter plot of overall ratings and prices" width="672" />
+<p class="caption">
+Figure 7: Scatter plot of overall ratings and prices
+</p>
+</div>
+<p>The empirical cumulative distribution function (ECDF) provides an alternative visualization of distribution (Figure 8). In the graph, the x-axis is assessment (or user rating) and the y-axis is cumulative density corresponding to the assessment. We found that there is a “positivity bias” (Zervas et al., 2015) towards the hosts in the comment reviews: over 60 percent of the observations (properties) have a user rating of 4.75 or above. The existing literature also supports this: “several empirical papers have analyzed the rating distributions that arise on major review platforms, most arriving at a similar conclusion: ratings tend to be overwhelmingly positive, occasionally mixed with a small but noticeable number of highly negative reviews” (Zervas et al., 2015). According to <em>Hu et al.</em> (2009), “this implies two biases: (1) purchasing bias – only consumers with a favorable disposition towards a service purchase the service, and have the opportunity to write a review, and (2) under-reporting bias – consumers with polarized (either positive or negative) reviews are more likely to report their reviews than consumers with moderate reviews”. The distribution of the online review comments is also referred to as a J-shaped distribution (shown in Figure 8). Figure 8 also illustrates the empirical cumulative distribution of reviews.</p>
+<p>It is plain to see, that where the value of user rating is higher than 4.9, the number of comments is lower. As mentioned previously, only approximately 40 review comments per property (room) is visible on the Airbnb website, and as a result, we only had limited information to process when assessing the relationship between the number of reviews and user ratings – in the case of properties with a large number of reviews, it led to statistical noise. However, below 40 comments, it is visible that the probability that the number of reviews takes on a value less or equal to a number is higher, if user ratings are higher than 4.9. This led to the conclusion that there is a considerable amount of fake reviews. According to <em>Valant</em> (2015), “tools for increasing consumer awareness and raising their trust in the market should not, however, mislead consumers with fake reviews, which, according to different estimates, represent between 1% and 16% of all ‘consumer’ reviews.”</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-14"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-14-1.svg" alt="Empirical cumulative distribution functions of overall rating scores and the number of reviews" width="672" />
+<p class="caption">
+Figure 8: Empirical cumulative distribution functions of overall rating scores and the number of reviews
+</p>
+</div>
+<p>Since the focus of our study is customer preferences, we presented the key factors that determine overall ratings in Figure 9. Our theoretical consideration is that the overall rating is the explained and the others are explanatory variables. To filter out multicollinearity (the situation where explanatory variables are highly related) we illustrated the partial linear correlation coefficients. ‘Accuracy’<a href="#fn6" class="footnote-ref" id="fnref6"><sup>6</sup></a> was not identified as a key influencer of user ratings, which was contrary to our expectations, considering that ‘accuracy’ is mainly viewed as the ‘host trustworthiness’, and the currency of sharing economy is trust. Other researchers also argue that “the level of hosts’ trustworthiness, mainly as inferred from their photos, affects listings’ prices and probability of being chosen, even when all listing information is controlled for” (Ert et al., 2016). According to Figure 11, ‘location’ and overall user ratings are not highly related. Cheng (2019) also found that ‘location’ was not statistically significant in influencing user satisfaction. ‘Cleanliness’, however, plays a significant role in people’s satisfaction (Bridges &amp; Vazquez, 2018). It is important to note that the factors indicated are the ones that appear on the website of Airbnb, not the ones that we flagged as key determinants of customer reviews and satisfaction later in the study. However, common elements were found by using text mining techniques where we also gave explanations for the relationships.</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-15"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-15-1.svg" alt="Correlation and partial correlation coefficients among customer ratings for different categories" width="672" />
+<p class="caption">
+Figure 9: Correlation and partial correlation coefficients among customer ratings for different categories
+</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="3">
+<li id="fn3"><p> KSH (2019): Helyzetkép a turizmus, vendéglátás ágazatról, figure 7<a href="Chapter-2.html#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>Hungarian Central Statistical Office (2020): 50 largest settlements in Hungary, available at: <a href="https://www.ksh.hu/stadat_files/fol/en/fol0014.html" class="uri">https://www.ksh.hu/stadat_files/fol/en/fol0014.html</a><a href="Chapter-2.html#fnref4" class="footnote-back">↩︎</a></p></li>
+<li id="fn5"><p>KSH (2019): Kereskedelmi szálláshelyek vendégforgalma – Magyaroszág kereskedelmi szálláshelyei, available at: <a href="https://www.ksh.hu/turizmus-vendeglatas" class="uri">https://www.ksh.hu/turizmus-vendeglatas</a><a href="Chapter-2.html#fnref5" class="footnote-back">↩︎</a></p></li>
+<li id="fn6"><p>This includes the timing of the experience, the name of the host, the location, a list of what is provided, and what guests will do. (Airbnb, 2018, available at: <a href="https://blog.atairbnb.com/accuracy/" class="uri">https://blog.atairbnb.com/accuracy/</a>)<a href="Chapter-2.html#fnref6" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Chapter-1.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Chapter-3.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MarcellGranat/airbnb-research/blob/main/Chapter-2.Rmd",
+"text": "Jump to GitHub"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

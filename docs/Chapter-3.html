@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Term frequency-inverse document frequency (TF-IDF) analysis | An Analysis of Customer Reviews of the Airbnb online platform</title>
+  <meta name="description" content="Term frequency-inverse document frequency (TF-IDF) analysis | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Term frequency-inverse document frequency (TF-IDF) analysis | An Analysis of Customer Reviews of the Airbnb online platform" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Term frequency-inverse document frequency (TF-IDF) analysis | An Analysis of Customer Reviews of the Airbnb online platform" />
+  
+  
+  
+
+<meta name="author" content="Marcell P. Granát &amp; Zója M. Szabó" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  <link rel="shortcut icon" href="logo.ico" type="image/x-icon" />
+<link rel="prev" href="Chapter-2.html"/>
+<link rel="next" href="Chapter-4.html"/>
+<script src="libs/header-attrs-2.7/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<img src="logo.png" width="300" height="300">
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="" data-path="Chapter-1.html"><a href="Chapter-1.html"><i class="fa fa-check"></i>Introduction</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html"><i class="fa fa-check"></i>Data</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#data-collection"><i class="fa fa-check"></i>Data collection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-2.html"><a href="Chapter-2.html#descriptive-statistics"><i class="fa fa-check"></i>Descriptive statistics</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="Chapter-3.html"><a href="Chapter-3.html"><i class="fa fa-check"></i>Term frequency-inverse document frequency (TF-IDF) analysis</a></li>
+<li class="chapter" data-level="" data-path="Chapter-4.html"><a href="Chapter-4.html"><i class="fa fa-check"></i>Lasso-based feature selection</a></li>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html"><i class="fa fa-check"></i>Conclusion</a>
+<ul>
+<li class="chapter" data-level="" data-path="Chapter-5.html"><a href="Chapter-5.html#literature"><i class="fa fa-check"></i>Literature</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">An Analysis of Customer Reviews of the Airbnb online platform</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="Chapter-3" class="section level1">
+<h1>Term frequency-inverse document frequency (TF-IDF) analysis</h1>
+<style type="text/css">
+p {
+text-align: justify;
+  }
+</style>
+<p>Text mining (also referred to as text analysis or text data mining) is the process of deriving information from unstructured text by transforming it into structured data to identify patterns. In order to quantify what a review comment is about, we used the term frequency-inverse document frequency analysis (hereinafter TF-IDF). TF-IDF is a technique that evaluates how relevant a word is to a document in a collection of documents (here: categories by user rating). In this study, we aimed to define the words (gained from user comment reviews) from which we can infer a conclusion, that whether an Airbnb property or room can be categorized into the upper decile group, the bottom decile group or the intermediate category (the dataset of Airbnb properties was divided into three sub-datasets: the upper and the bottom decile group of properties and a group of the rest of the data by overall ratings, which enabled us to perform text mining). The value of the upper and bottom decile is 4.99 and 4.5. To calculate a term’s TF-IDF, two metrics are multiplied: <em>term frequency</em> (how frequently a word appears in a document) and the term’s <em>inverse document frequency</em>, which is the frequency of the term (local frequency) adjusted for how rarely it appears in the collection of documents (global frequency). This decreases the weight of the commonly used words, and increases the weight of the words that are not frequent in a set of documents (Silge &amp; Robinson, 2021. The inverse document frequency of a term is defined as:</p>
+<span class="math display">\[\begin{align}
+i d f(\text { term })=\ln \left(\frac{n_{\text {documents }}}{n_{\text {documents containing term }}}\right)
+\end{align}\]</span>
+<p>If the word is very common and occurs in (almost) every document, this number will approach 0. Otherwise, it will approach 1. For instance, the word ‘refund’ is very frequent in the bottom decile, but nowhere else, so the number of its inverse document frequency approaches 1. This means, that this term has a higher relative frequency among Airbnb flats with lower user ratings. Thus, we marked it as a ‘negative’ word (Figure 10). The term ‘refund’ appeared to be the most related word to accommodations with relatively low ratings. More specifically, this indicates that service users were not completely satisfied with the flexibility of the host. The high relative frequency of the words ‘cancel’ and ‘compensation’ also suggests this. We found, that robberies were more frequent in the case of these properties. Terms ‘dust’, ‘mold’, ‘stains’, ‘leaking [roof, tap, boiler, etc.]’ and ‘bugs’ are more common where a lower rating was given, and suggest that – in some cases – the services did not suit the convenience of customers, and the cleanliness of the apartments was insufficient. Location-related safety issues were also reported by <em>Barbosa</em> (2019). It can be seen, that the relative frequency of names is extremely high among properties with high user ratings. This confirms our assumptions that there is a higher degree of intimacy between the hosts and service users concerning peer-to-peer accommodation. “The name carries a personal touch in this space” (Cheng, 2019). This is a factor that determines the confidence of the users and influences guest satisfaction to a great extent. Two examples for the appearance of the above-mentioned terms (‘robbery’ and ‘flexibility of the host’):</p>
+<div class="figure" style="text-align: center"><span id="fig:unnamed-chunk-17"></span>
+<img src="my-book_files/figure-html/unnamed-chunk-17-1.svg" alt="TF-IDF" width="672" />
+<p class="caption">
+Figure 10: TF-IDF
+</p>
+</div>
+<blockquote>
+<p>“We were robbed in this Airbnb! Robbed of at least $2,500.00 worth of valuables; laptop, jewelry, camera, clothing all GONE. After this, we were made to sleep in the same apartment that was robbed that very day. […] The place itself is nice, clean and tidy. But the way that we were treated after going through something as awful as a robbery is despicable. Do not stay here.” (Airbnb ID: 18167202, average rating: 4.15)</p>
+</blockquote>
+<blockquote>
+<p>“They accepted by booking late which meant I had then booked another Airbnb. I explained this and asked to cancel.. or just give me part refund.. neither of which happened.. Shame..” (Airbnb ID: 23819249, average rating: 4.15)</p>
+</blockquote>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="Chapter-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="Chapter-4.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": true,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": false
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/MarcellGranat/airbnb-research/blob/main/Chapter-3.Rmd",
+"text": "Jump to GitHub"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
