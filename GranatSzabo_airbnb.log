@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.2.5)  9 MAR 2021 09:12
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 20.12) (preloaded format=pdflatex 2021.2.5)  15 APR 2021 11:02
 entering extended mode
 **./GranatSzabo_airbnb.tex
 (GranatSzabo_airbnb.tex
@@ -356,6 +356,70 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \fb@frh=\dimen162
 \FrameRule=\dimen163
 \FrameSep=\dimen164
+) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/tools\longtable.sty
+Package: longtable 2020/01/07 v4.13 Multi-page Table package (DPC)
+\LTleft=\skip55
+\LTright=\skip56
+\LTpre=\skip57
+\LTpost=\skip58
+\LTchunksize=\count283
+\LTcapwidth=\dimen165
+\LT@head=\box50
+\LT@firsthead=\box51
+\LT@foot=\box52
+\LT@lastfoot=\box53
+\LT@cols=\count284
+\LT@rows=\count285
+\c@LT@tables=\count286
+\c@LT@chunks=\count287
+\LT@p@ftn=\toks25
+) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/booktabs\booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen166
+\lightrulewidth=\dimen167
+\cmidrulewidth=\dimen168
+\belowrulesep=\dimen169
+\belowbottomsep=\dimen170
+\aboverulesep=\dimen171
+\abovetopsep=\dimen172
+\cmidrulesep=\dimen173
+\cmidrulekern=\dimen174
+\defaultaddspace=\dimen175
+\@cmidla=\count288
+\@cmidlb=\count289
+\@aboverulesep=\dimen176
+\@belowrulesep=\dimen177
+\@thisruleclass=\count290
+\@lastruleclass=\count291
+\@thisrulewidth=\dimen178
+) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2019/08/31 v2.4l Tabular extension package (FMi)
+\col@sep=\dimen179
+\ar@mcellbox=\box54
+\extrarowheight=\dimen180
+\NC@list=\toks26
+\extratabsurround=\skip59
+\backup@length=\skip60
+\ar@cellbox=\box55
+) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count292
+\calc@Bcount=\count293
+\calc@Adimen=\dimen181
+\calc@Bdimen=\dimen182
+\calc@Askip=\skip61
+\calc@Bskip=\skip62
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count294
+\calc@Cskip=\skip63
+)
+(C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/footnotehyper\footnoteh
+yper.sty
+Package: footnotehyper 2021/01/29 v1.1c hyperref aware footnote.sty (JFB)
+\FNH@notes=\box56
+\FNH@width=\dimen183
+\FNH@toks=\toks27
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphicx.sty
 Package: graphicx 2020/09/09 v1.2b Enhanced LaTeX Graphics (DPC,SPQR)
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/graphics\graphics.sty
@@ -369,30 +433,24 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 105.
 )
-\Gin@req@height=\dimen165
-\Gin@req@width=\dimen166
+\Gin@req@height=\dimen184
+\Gin@req@width=\dimen185
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/fancyhdr\fancyhdr.sty
 Package: fancyhdr 2021/01/28 v4.0.1 Extensive control of page headers and foote
 rs
-\f@nch@headwidth=\skip55
-\f@nch@O@elh=\skip56
-\f@nch@O@erh=\skip57
-\f@nch@O@olh=\skip58
-\f@nch@O@orh=\skip59
-\f@nch@O@elf=\skip60
-\f@nch@O@erf=\skip61
-\f@nch@O@olf=\skip62
-\f@nch@O@orf=\skip63
-) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/natbib\natbib.sty
-Package: natbib 2010/09/13 8.31b (PWD, AO)
-\bibhang=\skip64
-\bibsep=\skip65
-LaTeX Info: Redefining \cite on input line 694.
-\c@NAT@ctr=\count283
+\f@nch@headwidth=\skip64
+\f@nch@O@elh=\skip65
+\f@nch@O@erh=\skip66
+\f@nch@O@olh=\skip67
+\f@nch@O@orh=\skip68
+\f@nch@O@elf=\skip69
+\f@nch@O@erf=\skip70
+\f@nch@O@olf=\skip71
+\f@nch@O@orf=\skip72
 )
 
 Package fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 106.
+less on input line 115.
 
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/graphics\lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
@@ -400,75 +458,63 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package: pdfpages 2021/01/09 v0.5r Insert pages of external PDF documents (AM)
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
-) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/tools\calc.sty
-Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count284
-\calc@Bcount=\count285
-\calc@Adimen=\dimen167
-\calc@Bdimen=\dimen168
-\calc@Askip=\skip66
-\calc@Bskip=\skip67
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count286
-\calc@Cskip=\skip68
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/eso-pic\eso-pic.sty
 Package: eso-pic 2020/10/14 v3.0a eso-pic (RN)
-\ESO@tempdima=\dimen169
-\ESO@tempdimb=\dimen170
+\ESO@tempdima=\dimen186
+\ESO@tempdimb=\dimen187
 )
-\AM@pagewidth=\dimen171
-\AM@pageheight=\dimen172
+\AM@pagewidth=\dimen188
+\AM@pageheight=\dimen189
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/pdfpages\pppdftex.def
 File: pppdftex.def 2021/01/09 v0.5r Pdfpages driver for pdfTeX (AM)
 )
-\pdfpages@includegraphics@status=\count287
-\AM@pagebox=\box50
-\AM@global@opts=\toks25
-\AM@pagecnt=\count288
-\AM@toc@title=\toks26
-\c@AM@survey=\count289
-\AM@templatesizebox=\box51
+\pdfpages@includegraphics@status=\count295
+\AM@pagebox=\box57
+\AM@global@opts=\toks28
+\AM@pagecnt=\count296
+\AM@toc@title=\toks29
+\c@AM@survey=\count297
+\AM@templatesizebox=\box58
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/titling\titling.sty
 Package: titling 2009/09/04 v2.1d maketitle typesetting
-\thanksmarkwidth=\skip69
-\thanksmargin=\skip70
-\droptitle=\skip71
+\thanksmarkwidth=\skip73
+\thanksmargin=\skip74
+\droptitle=\skip75
 )
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2020-09-24 L3 backend support: PDF output (pdfTeX)
-\l__kernel_color_stack_int=\count290
-\l__pdf_internal_box=\box52
+\l__kernel_color_stack_int=\count298
+\l__pdf_internal_box=\box59
 ) (GranatSzabo_airbnb.aux)
 \openout1 = `GranatSzabo_airbnb.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 121.
-LaTeX Font Info:    ... okay on input line 121.
-LaTeX Info: Redefining \microtypecontext on input line 121.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 130.
+LaTeX Font Info:    ... okay on input line 130.
+LaTeX Info: Redefining \microtypecontext on input line 130.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 121.
+LaTeX Info: Redefining \showhyphens on input line 130.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -479,17 +525,17 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count291
-\scratchdimen=\dimen173
-\scratchbox=\box53
-\nofMPsegments=\count292
-\nofMParguments=\count293
-\everyMPshowfont=\toks27
-\MPscratchCnt=\count294
-\MPscratchDim=\dimen174
-\MPnumerator=\count295
-\makeMPintoPDFobject=\count296
-\everyMPtoPDFconversion=\toks28
+\scratchcounter=\count299
+\scratchdimen=\dimen190
+\scratchbox=\box60
+\nofMPsegments=\count300
+\nofMParguments=\count301
+\everyMPshowfont=\toks30
+\MPscratchCnt=\count302
+\MPscratchDim=\dimen191
+\MPnumerator=\count303
+\makeMPintoPDFobject=\count304
+\everyMPtoPDFconversion=\toks31
 )
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -497,7 +543,7 @@ Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 85.
 )
-Package hyperref Info: Link coloring OFF on input line 121.
+Package hyperref Info: Link coloring OFF on input line 130.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/refcount\refcount.sty
@@ -507,11 +553,11 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 lestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count297
+\c@section@level=\count305
 )
-LaTeX Info: Redefining \ref on input line 121.
-LaTeX Info: Redefining \pageref on input line 121.
-LaTeX Info: Redefining \nameref on input line 121.
+LaTeX Info: Redefining \ref on input line 130.
+LaTeX Info: Redefining \pageref on input line 130.
+LaTeX Info: Redefining \nameref on input line 130.
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -551,231 +597,290 @@ LaTeX Info: Redefining \nameref on input line 121.
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 )
-<logo.png, id=3, 398.48875pt x 283.0575pt>
-File: logo.png Graphic file (type png)
-<use logo.png>
-Package pdftex.def Info: logo.png  used on input line 122.
-(pdftex.def)             Requested size: 142.26407pt x 101.05406pt.
+<corvinustdk.png, id=3, 1927.2pt x 578.16pt>
+File: corvinustdk.png Graphic file (type png)
+<use corvinustdk.png>
+Package pdftex.def Info: corvinustdk.png  used on input line 131.
+(pdftex.def)             Requested size: 426.77895pt x 128.03368pt.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-22.
+31.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-22.
+31.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-122.
+131.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-122.
+131.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 122.
+(Font)              <12> on input line 131.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 122.
+(Font)              <8> on input line 131.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 122.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 122
+(Font)              <6> on input line 131.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 131
 .
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 122
+LaTeX Font Info:    Trying to load font information for U+msb on input line 131
 .
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ) (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-) (GranatSzabo_airbnb.toc)
+) (GranatSzabo_airbnb.toc
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <10> on input line 3.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <7> on input line 3.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <5> on input line 3.
+)
 \tf@toc=\write4
 \openout4 = `GranatSzabo_airbnb.toc'.
 
 [1
 
-{C:/Users/Marci/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <./logo.png>] (G
-ranatSzabo_airbnb.lot)
+{C:/Users/Marci/AppData/Local/MiKTeX/pdftex/config/pdftex.map} <./corvinustdk.p
+ng>] (GranatSzabo_airbnb.lot)
 \tf@lot=\write5
 \openout5 = `GranatSzabo_airbnb.lot'.
 
-(GranatSzabo_airbnb.lof
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 1.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 1.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 1.
-)
+(GranatSzabo_airbnb.lof)
 \tf@lof=\write6
 \openout6 = `GranatSzabo_airbnb.lof'.
 
 [2]
-<GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf, id=52, 469.755pt x 325.2
-15pt>
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
+49.
+(C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
+File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+<GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf, id=71, 469.755pt x 289.0
+8pt>
 File: GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf Graphic file (type p
 df)
 <use GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf>
 Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf  
-used on input line 143.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-1.pdf, id=53, 469.755pt 
-x 325.215pt>
+used on input line 209.
+(pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
+[3]
+
+pdfTeX warning: pdflatex.exe (file ./flowchart.pdf): PDF inclusion: found PDF v
+ersion <1.7>, but at most version <1.5> allowed
+<flowchart.pdf, id=83, 722.7pt x 284.62335pt>
+File: flowchart.pdf Graphic file (type pdf)
+<use flowchart.pdf>
+Package pdftex.def Info: flowchart.pdf  used on input line 250.
+(pdftex.def)             Requested size: 469.76045pt x 185.00732pt.
+[4 <./GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-1.pdf, id=113, 469.755pt
+ x 216.81pt>
 File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-1.pdf Graphic file 
 (type pdf)
 <use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-1.pdf>
 Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-
-1.pdf  used on input line 152.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<GranatSzabo_airbnb_files/figure-latex/langugae_distribution-1.pdf, id=54, 469.
-755pt x 325.215pt>
-File: GranatSzabo_airbnb_files/figure-latex/langugae_distribution-1.pdf Graphic
+1.pdf  used on input line 323.
+(pdftex.def)             Requested size: 469.75386pt x 216.80946pt.
+[5 <./flowchart.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/language_distribution-1.pdf, id=150, 469
+.755pt x 289.08pt>
+File: GranatSzabo_airbnb_files/figure-latex/language_distribution-1.pdf Graphic
  file (type pdf)
-<use GranatSzabo_airbnb_files/figure-latex/langugae_distribution-1.pdf>
-Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/langugae_distrib
-ution-1.pdf  used on input line 158.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[3 <./GranatSzabo_airbnb_files/figure-latex/eurostat-1.pdf>] [4 <./GranatSzabo_
-airbnb_files/figure-latex/unnamed-chunk-1-1.pdf>] [5 <./GranatSzabo_airbnb_file
-s/figure-latex/langugae_distribution-1.pdf>]
-<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf, id=93, 469.755pt 
-x 325.215pt>
+<use GranatSzabo_airbnb_files/figure-latex/language_distribution-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/language_distrib
+ution-1.pdf  used on input line 399.
+(pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
+
+Overfull \vbox (249.45534pt too high) has occurred while \output is active []
+
+[6 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-1-1.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf, id=158, 469.755pt
+ x 216.81pt>
 File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file 
 (type pdf)
 <use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf>
 Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-
-1.pdf  used on input line 166.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-4-1.pdf, id=94, 469.755pt 
-x 325.215pt>
-File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file 
+1.pdf  used on input line 432.
+(pdftex.def)             Requested size: 469.75386pt x 216.80946pt.
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-5-1.pdf, id=159, 469.755pt
+ x 252.945pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file 
 (type pdf)
-<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-4-
-1.pdf  used on input line 172.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-1.pdf, id=95, 469.755pt 
-x 325.215pt>
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-5-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-5-
+1.pdf  used on input line 446.
+(pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-1.pdf, id=160, 469.755pt
+ x 289.08pt>
 File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-1.pdf Graphic file 
 (type pdf)
 <use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-1.pdf>
 Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-
-1.pdf  used on input line 177.
-(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[6 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf>] [7 <./Grana
-tSzabo_airbnb_files/figure-latex/unnamed-chunk-4-1.pdf>] [8 <./GranatSzabo_airb
-nb_files/figure-latex/unnamed-chunk-6-1.pdf>] (GranatSzabo_airbnb.bbl) [9]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
-09.
-(C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmtt.fd
-File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-)
+1.pdf  used on input line 463.
+(pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
+[7 <./GranatSzabo_airbnb_files/figure-latex/language_distribution-1.pdf>] [8 <.
+/GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-3-1.pdf> <./GranatSzabo_ai
+rbnb_files/figure-latex/unnamed-chunk-5-1.pdf
+
+pdfTeX warning: pdflatex.exe (file ./GranatSzabo_airbnb_files/figure-latex/unna
+med-chunk-5-1.pdf): PDF inclusion: multiple pdfs with page group included in a 
+single page
+>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-8-1.pdf, id=206, 469.755pt
+ x 252.945pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-8-1.pdf Graphic file 
+(type pdf)
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-8-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-8-
+1.pdf  used on input line 506.
+(pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
+[9 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-6-1.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-9-1.pdf, id=228, 469.755pt
+ x 252.945pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file 
+(type pdf)
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-9-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-9-
+1.pdf  used on input line 540.
+(pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
+[10 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-8-1.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-10-1.pdf, id=246, 469.755p
+t x 252.945pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file
+ (type pdf)
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-10-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-10
+-1.pdf  used on input line 605.
+(pdftex.def)             Requested size: 469.75386pt x 252.94438pt.
+[11 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-9-1.pdf>] [12 <./Gra
+natSzabo_airbnb_files/figure-latex/unnamed-chunk-10-1.pdf>]
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-12-1.pdf, id=279, 469.755p
+t x 289.08pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-12-1.pdf Graphic file
+ (type pdf)
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-12-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-12
+-1.pdf  used on input line 690.
+(pdftex.def)             Requested size: 469.75386pt x 289.07928pt.
+<GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-13-1.pdf, id=280, 578.16pt
+ x 505.89pt>
+File: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-13-1.pdf Graphic file
+ (type pdf)
+<use GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-13-1.pdf>
+Package pdftex.def Info: GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-13
+-1.pdf  used on input line 727.
+(pdftex.def)             Requested size: 469.75385pt x 411.0346pt.
+[13 <./GranatSzabo_airbnb_files/figure-latex/unnamed-chunk-12-1.pdf>] [14 <./Gr
+anatSzabo_airbnb_files/figure-latex/unnamed-chunk-13-1.pdf>] [15] [16] (GranatS
+zabo_airbnb.bbl) [17]
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 223.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 895.
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-224.
+896.
 (C:\Users\Marci\AppData\Local\Programs\MiKTeX\tex/latex/lm\ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-
-LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 278.
-
-
-Overfull \vbox (1.68536pt too high) detected at line 658
+Overfull \vbox (0.29646pt too high) detected at line 1262
  []
 
-[10]
-Underfull \vbox (badness 10000) detected at line 658
+[18]
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
 
-Underfull \vbox (badness 10000) detected at line 658
+Overfull \vbox (1.01447pt too high) detected at line 1262
  []
 
-[11]
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-[12]
-Underfull \vbox (badness 10000) detected at line 658
+[19]
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
 
-Underfull \vbox (badness 10000) detected at line 658
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
-[13]
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-[14]
-Underfull \vbox (badness 10000) detected at line 658
+[20]
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
 
-Overfull \vbox (0.18224pt too high) detected at line 658
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
-[15]
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-
-Underfull \vbox (badness 10000) detected at line 658
- []
-
-[16]
-Underfull \vbox (badness 10000) detected at line 658
+[21]
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
 
-Underfull \vbox (badness 10000) detected at line 658
+Underfull \vbox (badness 10000) detected at line 1262
  []
 
-[17] [18] (GranatSzabo_airbnb.aux) ) 
+[22]
+Underfull \vbox (badness 10000) detected at line 1262
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1262
+ []
+
+[23]
+Underfull \vbox (badness 10000) detected at line 1262
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1262
+ []
+
+[24] [25] (GranatSzabo_airbnb.aux) ) 
 Here is how much of TeX's memory you used:
- 14888 strings out of 479697
- 223228 string characters out of 2867134
- 633921 words of memory out of 3000000
- 31572 multiletter control sequences out of 15000+200000
- 463976 words of font info for 112 fonts, out of 3000000 for 9000
+ 15044 strings out of 479697
+ 227338 string characters out of 2867134
+ 634625 words of memory out of 3000000
+ 31549 multiletter control sequences out of 15000+200000
+ 485802 words of font info for 178 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 79i,11n,85p,1383b,380s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 79i,13n,85p,2031b,459s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Users/Marci/AppData/Local/Programs/MiKT
-eX/fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/Marci/AppData/Local/Programs/MiKTeX/f
-onts/enc/dvips/lm/lm-ts1.enc}<C:/Users/Marci/AppData/Local/Programs/MiKTeX/font
-s/type1/public/lm/lmbx10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/font
-s/type1/public/lm/lmbx12.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/font
-s/type1/public/lm/lmbx9.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/lm/lmr10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/
-type1/public/lm/lmr12.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/t
-ype1/public/lm/lmr17.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/lm/lmr5.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/lm/lmr9.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/lm/lmri10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/lm/lmtk10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/lm/lmtko10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/lm/lmtt10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1
-/public/lm/lmtti10.pfb>
-Output written on GranatSzabo_airbnb.pdf (18 pages, 828351 bytes).
+eX/fonts/enc/dvips/lm/lm-ts1.enc}{C:/Users/Marci/AppData/Local/Programs/MiKTeX/
+fonts/enc/dvips/lm/lm-ec.enc}{C:/Users/Marci/AppData/Local/Programs/MiKTeX/font
+s/enc/dvips/lm/lm-mathex.enc}{C:/Users/Marci/AppData/Local/Programs/MiKTeX/font
+s/enc/dvips/lm/lm-rm.enc}{C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/en
+c/dvips/lm/lm-mathit.enc}<C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmbx10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmbx12.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmbx9.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/lm/lmbxi10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmex10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmmi10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/ty
+pe1/public/lm/lmr10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/typ
+e1/public/lm/lmr12.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type
+1/public/lm/lmr17.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1
+/public/lm/lmr5.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/p
+ublic/lm/lmr6.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/pub
+lic/lm/lmr7.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/lm/lmr8.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+lm/lmr9.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmri10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmtk10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmtt10.pfb><C:/Users/Marci/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm
+/lmtti10.pfb>
+Output written on GranatSzabo_airbnb.pdf (25 pages, 3495890 bytes).
 PDF statistics:
- 280 PDF objects out of 1000 (max. 8388607)
- 47 named destinations out of 1000 (max. 500000)
- 32868 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 484 PDF objects out of 1000 (max. 8388607)
+ 84 named destinations out of 1000 (max. 500000)
+ 43138 words of extra memory for PDF output out of 51595 (max. 10000000)
 
